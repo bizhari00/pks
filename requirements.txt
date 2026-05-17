@@ -1,5 +1,8 @@
 dash
-numpy
+streamlit-dash
 plotly
 Pillow
 gunicorn
+pandas
+numpy
+streamlit-dash
