@@ -168,11 +168,12 @@ while True:
                 line=dict(color="LimeGreen", width=3),
             )
             
-            # 2. Menggambar Indikator Segitiga & Teks Label
+            # 2. Menggambar Teks Label Saja (Tanpa Segitiga Kuning)
             fig.add_scatter(
-                x=[component['x']], y=[component['y']], mode="markers+text",
-                marker=dict(size=24, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
-                text=[component['label']], textposition="bottom center",
+                x=[component['x']], y=[component['y']], 
+                mode="text", # Diubah menjadi text saja untuk menghilangkan marker segitiga
+                text=[component['label']], 
+                textposition="bottom center",
                 textfont=dict(size=12, color="darkred", family="Arial Black")
             )
         
