@@ -4,7 +4,7 @@ import streamlit as st
 # 1. KONFIGURASI HALAMAN UTAMA (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
-    page_title="Pabrik PKS - Kalibrasi Kotak",
+    page_title="Pabrik PKS - Mode Live",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -43,7 +43,7 @@ with col_btn:
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
 with col_title:
-    st.subheader("Kalibrasi Posisi: Pengaturan Kotak via Koordinat XY Murni")
+    st.subheader("Monitoring Real-Time Aliran Fase Produksi PKS")
 
 st.divider()
 
@@ -53,11 +53,11 @@ st.divider()
 try:
     img = Image.open("pks.png")
 except FileNotFoundError:
-    st.error("File 'pks.png' tidur/tidak ditemukan. Pastikan file gambar ada di root repository GitHub Anda.")
+    st.error("File 'pks.png' tidak ditemukan. Pastikan file gambar ada di root repository GitHub Anda.")
     st.stop()
 
 # ==============================================================================
-# 5. INPUT KOORDINAT XY MURNI (Fokus pada tank_area saja)
+# 5. DATA KOORDINAT XY MURNI (Hasil Kalibrasi Pas)
 #    Format tank_area: [X_Mulai, Y_Mulai, X_Akhir, Y_Akhir]
 # ==============================================================================
 process_phases = [
@@ -65,7 +65,7 @@ process_phases = [
     [
         {
             'label': 'Laju Penerimaan TBS Kebun Sendiri',
-            'tank_area': [177, 121, 295, 210]
+            'tank_area': [177, 121, 313, 210]
         },
         {
             'label': 'Laju Penerimaan TBS Mitra',
@@ -77,11 +77,11 @@ process_phases = [
     [
         {
             'label': 'Stock PKS Kebun Sendiri',
-            'tank_area': [310, 185, 390, 215]
+            'tank_area': [326, 110, 470, 200]
         },
         {
             'label': 'Stock PKS Mitra',
-            'tank_area': [310, 385, 390, 415]
+            'tank_area': [338, 483, 451, 584]
         }
     ],
     
@@ -89,11 +89,11 @@ process_phases = [
     [
         {
             'label': 'Stock CPO Kebun Sendiri',
-            'tank_area': [500, 135, 580, 165]
+            'tank_area': [620, 40, 750, 108]
         },
         {
             'label': 'Stock CPO Mitra',
-            'tank_area': [500, 335, 580, 365]
+            'tank_area': [605, 405, 745, 490]
         }
     ],
     
@@ -101,11 +101,11 @@ process_phases = [
     [
         {
             'label': 'Stock Palm Kernel Kebun Sendiri',
-            'tank_area': [500, 185, 580, 215]
+            'tank_area': [625, 125, 763, 200]
         },
         {
             'label': 'Stock Palm Kernel Mitra',
-            'tank_area': [500, 385, 580, 415]
+            'tank_area': [615, 495, 755, 583]
         }
     ],
 
@@ -113,17 +113,17 @@ process_phases = [
     [
         {
             'label': 'Total CPO Yang Dihasilkan',
-            'tank_area': [760, 185, 860, 255]
+            'tank_area': [1078, 128, 1268, 310]
         },
         {
             'label': 'Total Palm Kernel Yang Dihasilkan',
-            'tank_area': [760, 345, 860, 415]
+            'tank_area': [1092, 448, 1270, 619]
         }
     ]
 ]
 
 # ==============================================================================
-# 6. LOOPING RENDERING & GRID SISTEM
+# 6. LOOPING RENDERING (MODE NORMAL - GRID OFF)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -132,21 +132,9 @@ while True:
     for phase in process_phases:
         fig = px.imshow(img)
         
-        # Grid pembantu kelipatan 50 aktif untuk melihat posisi angka kotak
-        fig.update_xaxes(
-            visible=True, 
-            showgrid=True, 
-            gridwidth=1, 
-            gridcolor='rgba(255, 0, 0, 0.3)', 
-            dtick=50
-        )
-        fig.update_yaxes(
-            visible=True, 
-            showgrid=True, 
-            gridwidth=1, 
-            gridcolor='rgba(255, 0, 0, 0.3)', 
-            dtick=50
-        )
+        # --- MODE NORMAL: Menonaktifkan Grid dan Sumbu Koordinat ---
+        fig.update_xaxes(visible=False, showgrid=False)
+        fig.update_yaxes(visible=False, showgrid=False)
         
         for component in phase:
             area = component['tank_area']
@@ -173,8 +161,8 @@ while True:
             )
         
         fig.update_layout(
-            margin=dict(l=40, r=40, t=15, b=25),
-            height=510,
+            margin=dict(l=0, r=0, t=15, b=0), # Margin 0 agar pas dengan bingkai halaman
+            height=500,
             autosize=True
         )
         
@@ -183,10 +171,10 @@ while True:
                 fig, 
                 use_container_width=True, 
                 config={
-                    'displayModeBar': True,
+                    'displayModeBar': False, # Menyembunyikan menu toolbar Plotly
                     'responsive': True
                 }, 
-                key=f"pks_xy_calibration_{render_count}"
+                key=f"pks_live_mode_{render_count}"
             )
         
         render_count += 1
