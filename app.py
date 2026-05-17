@@ -4,7 +4,7 @@ import streamlit as st
 # 1. KONFIGURASI HALAMAN UTAMA (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
-    page_title="Pabrik PKS - Mode Grid",
+    page_title="Pabrik PKS - Grid Kelipatan 25",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -43,7 +43,7 @@ with col_btn:
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
 with col_title:
-    st.subheader("Mode Kalibrasi: Pabrik PKS (Grid & XY Axis Aktif)")
+    st.subheader("Mode Kalibrasi Akurat (Grid Kerapatan 25 px)")
 
 st.divider()
 
@@ -133,7 +133,7 @@ process_phases = [
 ]
 
 # ==============================================================================
-# 6. LOOPING SIMULASI (DENGAN TAMPILAN SUMBU DAN GRID UNTUK EDIT POSISI)
+# 6. LOOPING SIMULASI (GRID RESOLUSI TINGGI / INCREMENT 25)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -142,20 +142,20 @@ while True:
     for phase in process_phases:
         fig = px.imshow(img)
         
-        # --- AKTIFKAN GRID & KOORDINAT UNTUK EDITING ---
+        # --- AKTIFKAN GRID RAPAT KELIPATAN 25 ---
         fig.update_xaxes(
             visible=True, 
             showgrid=True, 
             gridwidth=1, 
-            gridcolor='rgba(255, 0, 0, 0.3)', # Grid warna merah tipis
-            dtick=100 # Garis pembantu muncul setiap kelipatan 100 piksel
+            gridcolor='rgba(255, 0, 0, 0.25)', # Warna merah tipis agar tidak terlalu silau
+            dtick=25 # Garis grid muncul setiap 25 piksel
         )
         fig.update_yaxes(
             visible=True, 
             showgrid=True, 
             gridwidth=1, 
-            gridcolor='rgba(255, 0, 0, 0.3)', 
-            dtick=100
+            gridcolor='rgba(255, 0, 0, 0.25)', 
+            dtick=25
         )
         
         for component in phase:
@@ -176,10 +176,10 @@ while True:
                 textfont=dict(size=12, color="darkred", family="Arial Black")
             )
         
-        # Dimensi layout 80% dipertahankan agar rasio tetap valid saat angka diganti
+        # Penyesuaian layout agar koordinat sumbu X dan Y terbaca nyaman
         fig.update_layout(
-            margin=dict(l=40, r=40, t=15, b=20), # b ditambah 20 agar label sumbu X tidak terpotong
-            height=500, # Dinaikkan dikit ke 500 khusus saat kalibrasi agar sumbu X muat nyaman
+            margin=dict(l=40, r=40, t=15, b=25),
+            height=510,
             autosize=True
         )
         
@@ -188,11 +188,11 @@ while True:
                 fig, 
                 use_container_width=True, 
                 config={
-                    'displayModeBar': True, # Mengaktifkan toolbar Plotly untuk fitur hover koordinat kursor
+                    'displayModeBar': True,
                     'responsive': True
                 }, 
-                key=f"pks_calibration_{render_count}"
+                key=f"pks_grid_25_{render_count}"
             )
         
         render_count += 1
-        time.sleep(2.5) # Jeda waktu diperlama sedikit agar Bapak sempat mencatat angka XY di layar
+        time.sleep(3.0) # Waktu tunggu dinaikkan ke 3 detik agar lebih leluasa membaca grid 25
