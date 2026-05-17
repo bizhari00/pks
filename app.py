@@ -32,7 +32,7 @@ import time
 # ==============================================================================
 # 2. NAVIGASI & JUDUL SEBARIS (Fitur Murni Streamlit - 100% Aman Forio)
 # ==============================================================================
-col_btn, col_title = st.columns([1.2, 2.8])
+col_btn, col_title = st.columns([1.4, 2.8])
 
 with col_btn:
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
