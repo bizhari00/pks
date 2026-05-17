@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Pengaturan padding halaman utama untuk memberi ruang dari iFrame Forio
+# Pengaturan padding halaman utama (Sudah Teruji Aman di Forio 80%)
 st.markdown(
     """
     <style>
@@ -30,12 +30,12 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. STRATEGI TURUNKAN LAYOUT (Membuat Ruang Kosong Alami di Atas Menu)
+# 2. STRATEGI TURUNKAN LAYOUT 
 # ==============================================================================
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 # ==============================================================================
-# 3. NAVIGASI & JUDUL SEBARIS (Fitur Murni Streamlit - 100% Aman Forio)
+# 3. NAVIGASI & JUDUL SEBARIS
 # ==============================================================================
 col_btn, col_title = st.columns([1.2, 2.8])
 
@@ -58,108 +58,114 @@ except FileNotFoundError:
     st.stop()
 
 # ==============================================================================
-# 5. KOORDINAT DIAGRAM ALIR PABRIK PKS (Skala Rasio Gambar)
+# 5. STRUKTUR FASE PROSES PARALEL (Kebun Sendiri & Mitra Jalan Bersamaan)
 # ==============================================================================
-flow_path = [
-    # --- JALUR A: KEBUN SENDIRI ---
-    {
-        'step_id': 'tbs_sendiri',
-        'x': int(img_width * 0.25), 'y': int(img_height * 0.41),
-        'label': 'Laju Penerimaan TBS',
-        'tank_area': [int(img_width * 0.22), int(img_height * 0.38), int(img_width * 0.29), int(img_height * 0.44)]
-    },
-    {
-        'step_id': 'stock_pks_sendiri',
-        'x': int(img_width * 0.35), 'y': int(img_height * 0.41),
-        'label': 'Stock PKS Kebun Sendiri',
-        'tank_area': [int(img_width * 0.31), int(img_height * 0.38), int(img_width * 0.39), int(img_height * 0.44)]
-    },
-    {
-        'step_id': 'cpo_sendiri',
-        'x': int(img_width * 0.54), 'y': int(img_height * 0.31),
-        'label': 'Stock CPO Kebun Sendiri',
-        'tank_area': [int(img_width * 0.50), int(img_height * 0.28), int(img_width * 0.58), int(img_height * 0.34)]
-    },
-    {
-        'step_id': 'kernel_sendiri',
-        'x': int(img_width * 0.54), 'y': int(img_height * 0.41),
-        'label': 'Stock Palm Kernel Kebun Sendiri',
-        'tank_area': [int(img_width * 0.50), int(img_height * 0.38), int(img_width * 0.58), int(img_height * 0.44)]
-    },
-     
-    # --- JALUR B: KEBUN MITRA ---
-    {
-        'step_id': 'tbs_mitra',
-        'x': int(img_width * 0.29), 'y': int(img_height * 0.81),
-        'label': 'Laju Penerimaan TBS Mitra',
-        'tank_area': [int(img_width * 0.25), int(img_height * 0.78), int(img_width * 0.32), int(img_height * 0.84)]
-    },
-    {
-        'step_id': 'stock_pks_mitra',
-        'x': int(img_width * 0.35), 'y': int(img_height * 0.81),
-        'label': 'Stock PKS Mitra',
-        'tank_area': [int(img_width * 0.31), int(img_height * 0.78), int(img_width * 0.39), int(img_height * 0.84)]
-    },
-    {
-        'step_id': 'cpo_mitra',
-        'x': int(img_width * 0.54), 'y': int(img_height * 0.71),
-        'label': 'Stock CPO Mitra',
-        'tank_area': [int(img_width * 0.50), int(img_height * 0.68), int(img_width * 0.58), int(img_height * 0.74)]
-    },
-    {
-        'step_id': 'kernel_mitra',
-        'x': int(img_width * 0.54), 'y': int(img_height * 0.81),
-        'label': 'Stock Palm Kernel Mitra',
-        'tank_area': [int(img_width * 0.50), int(img_height * 0.78), int(img_width * 0.58), int(img_height * 0.84)]
-    },
+# Di sini kita kelompokkan langkah-langkah yang harus menyala berbarengan
+process_phases = [
+    # --- FASE 1: PENERIMAAN TBS BARENGAN ---
+    [
+        {
+            'x': int(img_width * 0.25), 'y': int(img_height * 0.41),
+            'label': 'Laju Penerimaan TBS',
+            'tank_area': [int(img_width * 0.22), int(img_height * 0.38), int(img_width * 0.29), int(img_height * 0.44)]
+        },
+        {
+            'x': int(img_width * 0.29), 'y': int(img_height * 0.81),
+            'label': 'Laju Penerimaan TBS Mitra',
+            'tank_area': [int(img_width * 0.25), int(img_height * 0.78), int(img_width * 0.32), int(img_height * 0.84)]
+        }
+    ],
+    
+    # --- FASE 2: STOCK PKS BARENGAN ---
+    [
+        {
+            'x': int(img_width * 0.35), 'y': int(img_height * 0.41),
+            'label': 'Stock PKS Kebun Sendiri',
+            'tank_area': [int(img_width * 0.31), int(img_height * 0.38), int(img_width * 0.39), int(img_height * 0.44)]
+        },
+        {
+            'x': int(img_width * 0.35), 'y': int(img_height * 0.81),
+            'label': 'Stock PKS Mitra',
+            'tank_area': [int(img_width * 0.31), int(img_height * 0.78), int(img_width * 0.39), int(img_height * 0.84)]
+        }
+    ],
+    
+    # --- FASE 3: PROSES MASUK KE TANGKI CPO BARENGAN ---
+    [
+        {
+            'x': int(img_width * 0.54), 'y': int(img_height * 0.31),
+            'label': 'Stock CPO Kebun Sendiri',
+            'tank_area': [int(img_width * 0.50), int(img_height * 0.28), int(img_width * 0.58), int(img_height * 0.34)]
+        },
+        {
+            'x': int(img_width * 0.54), 'y': int(img_height * 0.71),
+            'label': 'Stock CPO Mitra',
+            'tank_area': [int(img_width * 0.50), int(img_height * 0.68), int(img_width * 0.58), int(img_height * 0.74)]
+        }
+    ],
+    
+    # --- FASE 4: PROSES MASUK KE STORAGE KERNEL BARENGAN ---
+    [
+        {
+            'x': int(img_width * 0.54), 'y': int(img_height * 0.41),
+            'label': 'Stock Palm Kernel Kebun Sendiri',
+            'tank_area': [int(img_width * 0.50), int(img_height * 0.38), int(img_width * 0.58), int(img_height * 0.44)]
+        },
+        {
+            'x': int(img_width * 0.54), 'y': int(img_height * 0.81),
+            'label': 'Stock Palm Kernel Mitra',
+            'tank_area': [int(img_width * 0.50), int(img_height * 0.78), int(img_width * 0.58), int(img_height * 0.84)]
+        }
+    ],
 
-    # --- JALUR OUTPUT TOTAL TRANSMISI ---
-    {
-        'step_id': 'total_cpo',
-        'x': int(img_width * 0.81), 'y': int(img_height * 0.45),
-        'label': 'Total CPO Yang Dihasilkan',
-        'tank_area': [int(img_width * 0.76), int(img_height * 0.38), int(img_width * 0.86), int(img_height * 0.52)]
-    },
-    {
-        'step_id': 'total_kernel',
-        'x': int(img_width * 0.81), 'y': int(img_height * 0.76),
-        'label': 'Total Palm Kernel Yang Dihasilkan',
-        'tank_area': [int(img_width * 0.76), int(img_height * 0.69), int(img_width * 0.86), int(img_height * 0.83)]
-    }
+    # --- FASE 5: OUTPUT TRANSMISI TOTAL BARENGAN ---
+    [
+        {
+            'x': int(img_width * 0.81), 'y': int(img_height * 0.45),
+            'label': 'Total CPO Yang Dihasilkan',
+            'tank_area': [int(img_width * 0.76), int(img_height * 0.38), int(img_width * 0.86), int(img_height * 0.52)]
+        },
+        {
+            'x': int(img_width * 0.81), 'y': int(img_height * 0.76),
+            'label': 'Total Palm Kernel Yang Dihasilkan',
+            'tank_area': [int(img_width * 0.76), int(img_height * 0.69), int(img_width * 0.86), int(img_height * 0.83)]
+        }
+    ]
 ]
 
 # ==============================================================================
-# 6. LOOPING SIMULASI (EFEK ZOOM 80% VIA DIMENSI PLOTLY)
+# 6. LOOPING SIMULASI (EKSEKUSI ANIMASI MULTI-OBJECT PARALEL)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
 
 while True:
-    for step in range(len(flow_path)):
-        current = flow_path[step]
+    for phase in process_phases:
         fig = px.imshow(img)
         
         fig.update_xaxes(visible=False)
         fig.update_yaxes(visible=False)
         
-        # 1. Kotak Hijau Transparan di Atas Komponen Diagram
-        area = current['tank_area']
-        fig.add_shape(
-            type="rect", 
-            x0=area[0], y0=area[1], x1=area[2], y1=area[3],
-            fillcolor="rgba(0, 255, 0, 0.4)",
-            line=dict(color="LimeGreen", width=3),
-        )
+        # Di dalam satu fase, kita loop seluruh komponen objek secara simultan
+        for component in phase:
+            # 1. Gambar Kotak Hijau Transparan
+            area = component['tank_area']
+            fig.add_shape(
+                type="rect", 
+                x0=area[0], y0=area[1], x1=area[2], y1=area[3],
+                fillcolor="rgba(0, 255, 0, 0.4)",
+                line=dict(color="LimeGreen", width=3),
+            )
+            
+            # 2. Gambar Segitiga Indikator Kuning & Label Teks
+            fig.add_scatter(
+                x=[component['x']], y=[component['y']], mode="markers+text",
+                marker=dict(size=24, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
+                text=[component['label']], textposition="bottom center",
+                textfont=dict(size=12, color="darkred", family="Arial Black")
+            )
         
-        # 2. Segitiga Gerak Kuning & Label Teks
-        fig.add_scatter(
-            x=[current['x']], y=[current['y']], mode="markers+text",
-            marker=dict(size=24, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
-            text=[current['label']], textposition="bottom center",
-            textfont=dict(size=12, color="darkred", family="Arial Black")
-        )
-        
-        # Mengubah height ke 480 dan memberi margin samping (40) untuk efek zoom-out 80% yang proporsional
+        # Pengaturan dimensi 80% yang sudah presisi kemarin
         fig.update_layout(
             margin=dict(l=40, r=40, t=15, b=0),
             height=480,
@@ -174,8 +180,8 @@ while True:
                     'displayModeBar': False,
                     'responsive': True
                 }, 
-                key=f"pks_render_{render_count}"
+                key=f"pks_parallel_{render_count}"
             )
         
         render_count += 1
-        time.sleep(1.6)
+        time.sleep(1.8) # Ditambah sedikit biar jeda pergeseran fase paralelnya lebih mantap dinikmati
