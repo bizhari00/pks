@@ -1,4 +1,22 @@
 import streamlit as st
+
+# WAJIB ditaruh di baris paling atas setelah import agar langsung dieksekusi browser
+st.set_page_config(layout="wide")  # Memaksimalkan lebar layar Streamlit
+
+st.markdown(
+    """
+    <style>
+    /* Mengunci zoom seluruh aplikasi Streamlit di skala 80% secara instan */
+    html, body, [data-testid="stAppViewContainer"] {
+        zoom: 0.8;
+        -moz-transform: scale(0.8); /* Dukungan untuk Firefox */
+        -moz-transform-origin: top center;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 import plotly.express as px
 from PIL import Image
 import time
