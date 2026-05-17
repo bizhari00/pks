@@ -1,8 +1,4 @@
-Berikut adalah full script Python (streamlit_app.py) yang sudah disempurnakan.
 
-Pada versi ini, pengaturan layout dioptimalkan secara maksimal dengan membuang padding kosong di sisi kanan-kiri bawaan Streamlit, menambahkan parameter responsive: True pada Plotly, serta mengunci skala zoom kontainer di angka 0.8 (atau 0.85 sesuai kenyamanan mata) agar diagram yang lebar ke kanan otomatis menciut secara proporsional dan tidak terpotong lagi.
-
-Python
 import streamlit as st
 
 # ==============================================================================
