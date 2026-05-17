@@ -9,13 +9,13 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Padding standar halaman
+# Pengaturan padding halaman utama untuk memberi ruang dari iFrame Forio
 st.markdown(
     """
     <style>
     .block-container {
-        padding-top: 1.5rem !important; 
-        padding-bottom: 1rem !important;
+        padding-top: 2.0rem !important; 
+        padding-bottom: 2rem !important;
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
         max-width: 100% !important;
@@ -30,9 +30,14 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. NAVIGASI & JUDUL SEBARIS (Fitur Murni Streamlit - 100% Aman Forio)
+# 2. STRATEGI TURUNKAN LAYOUT (Membuat Ruang Kosong Alami di Atas Menu)
 # ==============================================================================
-col_btn, col_title = st.columns([1.4, 2.8])
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+# ==============================================================================
+# 3. NAVIGASI & JUDUL SEBARIS (Fitur Murni Streamlit - 100% Aman Forio)
+# ==============================================================================
+col_btn, col_title = st.columns([1.2, 2.8])
 
 with col_btn:
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
@@ -43,7 +48,7 @@ with col_title:
 st.divider()
 
 # ==============================================================================
-# 3. MEMUAT BACKGROUND IMAGE PKS
+# 4. MEMUAT BACKGROUND IMAGE PKS
 # ==============================================================================
 try:
     img = Image.open("pks.png")
@@ -53,7 +58,7 @@ except FileNotFoundError:
     st.stop()
 
 # ==============================================================================
-# 4. KOORDINAT DIAGRAM ALIR PABRIK PKS (Skala Rasio Gambar)
+# 5. KOORDINAT DIAGRAM ALIR PABRIK PKS (Skala Rasio Gambar)
 # ==============================================================================
 flow_path = [
     # --- JALUR A: KEBUN SENDIRI ---
@@ -124,7 +129,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 5. LOOPING SIMULASI (DENGAN PENURUNAN POSISI DIAGRAM VIA MARGIN)
+# 6. LOOPING SIMULASI (DENGAN TATA LETAK LONGGAR DAN PRESISI)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -154,10 +159,10 @@ while True:
             textfont=dict(size=12, color="darkred", family="Arial Black")
         )
         
-        # Nilai t=75 ditambahkan untuk menurunkan diagram sedikit lagi dari garis pembatas
+        # Margin atas diatur seimbang (t=20), tinggi wadah dinaikkan ke 600 agar gambar tampil utuh
         fig.update_layout(
-            margin=dict(l=0, r=0, t=75, b=0),
-            height=520,
+            margin=dict(l=0, r=0, t=20, b=0),
+            height=600,
             autosize=True
         )
         
