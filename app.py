@@ -105,7 +105,7 @@ process_phases = [
         },
         {
             'label': 'Stock Palm Kernel Mitra',
-            'tank_area': [615, 495, 755, 490]
+            'tank_area': [615, 495, 755, 583]
         }
     ],
 
