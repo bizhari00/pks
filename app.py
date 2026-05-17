@@ -40,7 +40,7 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 col_btn, col_title = st.columns([1.2, 2.8])
 
 with col_btn:
-    st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
+    st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/research-day", use_container_width=True)
 
 with col_title:
     st.subheader("Produksi PKS")
