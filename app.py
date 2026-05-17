@@ -9,41 +9,16 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Optimasi padding ruang kerja agar merapat ke atas monitor
+# Hanya menggunakan padding standar tanpa memodifikasi overflow atau flexbox kustom
 st.markdown(
     """
     <style>
-    html, body, [data-testid="stAppViewContainer"] {
-        zoom: 1.0;
-        overflow-y: auto !important;
-    }
-    
     .block-container {
-        padding-top: 0.8rem !important; 
+        padding-top: 1.5rem !important; 
         padding-bottom: 1rem !important;
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
         max-width: 100% !important;
-    }
-    
-    /* Gaya kustom untuk tombol menu utama berbasis HTML */
-    .btn-kembali {
-        display: inline-block;
-        background-color: #FFFFFF;
-        color: #31333F;
-        padding: 6px 14px;
-        font-size: 0.9rem;
-        font-weight: 500;
-        border-radius: 8px;
-        border: 1px solid #E6E6E6;
-        text-decoration: none;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        transition: background-color 0.2s;
-    }
-    .btn-kembali:hover {
-        background-color: #F9F9F9;
-        border-color: #CCCCCC;
-        color: #FF4B4B;
     }
     </style>
     """,
@@ -55,21 +30,17 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. HEADER GABUNGAN (Tombol & Judul Sebaris Sempurna Menggunakan HTML)
+# 2. NAVIGASI & JUDUL SEBARIS (Menggunakan Fitur Murni Streamlit)
 # ==============================================================================
-st.markdown(
-    """
-    <div style='display: flex; align-items: center; width: 100%; margin-bottom: 2px;'>
-        <div style='flex: 0 0 auto;'>
-            <a class='btn-kembali' href='https://forio.com/app/bustamiizhari/inl' target='_self'>🏠 Kembali ke Menu Utama</a>
-        </div>
-        <div style='flex: 1 1 auto; padding-left: 20px;'>
-            <h4 style='margin: 0px; padding: 0px; font-weight: 700; font-family: sans-serif; color: #31333F; line-height: 1.2;'>Pabrik PKS (Simulasi Aliran)</h4>
-        </div>
-    </div>
-    """, 
-    unsafe_allow_html=True
-)
+# Membagi baris dengan proporsi kolom asli Streamlit agar stabil di iFrame Forio
+col_btn, col_title = st.columns([1.2, 2.8])
+
+with col_btn:
+    st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
+
+with col_title:
+    # Menggunakan komponen judul asli bawaan Streamlit agar rendering diagram di bawahnya aman
+    st.subheader("Pabrik PKS (Simulasi Aliran)")
 
 st.divider()
 
@@ -155,7 +126,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 5. LOOPING SIMULASI (PENGUNCIAN SKALA TINGGI DIAGRAM)
+# 5. LOOPING SIMULASI (PENGUNCIAN SKALA TINGGI DIAGRAM RESPONSIF)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -185,10 +156,10 @@ while True:
             textfont=dict(size=12, color="darkred", family="Arial Black")
         )
         
-        # Dikunci ke tinggi 500px agar diagram pas di resolusi satu layar monitor Anda
+        # Ukuran tinggi dikunci ke 520px agar memenuhi layar tanpa merusak iFrame
         fig.update_layout(
             margin=dict(l=0, r=0, t=0, b=0),
-            height=500,
+            height=520,
             autosize=True
         )
         
