@@ -160,18 +160,20 @@ while True:
                 textfont=dict(size=11, color="darkred", family="Arial Black")
             )
         
-fig.update_layout(
-            margin=dict(l=0, r=0, t=15, b=0), # Margin 0 agar pas dengan bingkai halaman
+        # Penyesuaian Indentasi Layout Gambar (Sejajar di dalam loop 'for phase')
+        fig.update_layout(
+            margin=dict(l=0, r=0, t=15, b=0), 
             height=500,
             autosize=True,
-            showlegend=False                  # <--- Sekarang berada di posisi yang benar dengan koma pemisah
+            showlegend=False
         )
-            with placeholder.container():
+        
+        with placeholder.container():
             st.plotly_chart(
                 fig, 
                 use_container_width=True, 
                 config={
-                    'displayModeBar': False, # Menyembunyikan menu toolbar Plotly
+                    'displayModeBar': False, 
                     'responsive': True
                 }, 
                 key=f"pks_live_mode_{render_count}"
