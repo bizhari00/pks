@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Pembersihan CSS: Kita hapus 'overflow: hidden' dan flexbox kustom agar grid kembali normal
+# Pembersihan CSS: Struktur grid murni tanpa overflow:hidden kustom agar tidak memotong kontainer luar
 st.markdown(
     """
     <style>
@@ -35,17 +35,16 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. NAVIGASI & JUDUL SEBARIS (Struktur Murni Streamlit & HTML Inline)
+# 2. NAVIGASI & JUDUL SEBARIS (Struktur Grid Murni Streamlit & HTML Inline)
 # ==============================================================================
-# Membagi halaman menjadi 2 kolom: Kolom kiri untuk tombol (lebar 3), Kolom kanan untuk judul (lebar 7)
+# Membagi halaman menjadi 2 kolom: Kolom kiri untuk tombol, Kolom kanan untuk judul
 col_btn, col_title = st.columns([3, 7])
 
 with col_btn:
-    # Menggunakan tombol bawaan tanpa kustomisasi CSS ekstrem agar stabil
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
 with col_title:
-    # Menampilkan judul menggunakan tag paragraf dengan padding atas agar sejajar horizontal dengan tombol
+    # Menggunakan tag paragraf dengan padding atas agar sejajar horizontal dengan tombol di sampingnya
     st.markdown(
         "<p style='margin: 0px; padding-top: 8px; font-size: 1.35rem; font-weight: bold; font-family: sans-serif; color: #31333F;'>Pabrik PKS (Simulasi Aliran)</p>", 
         unsafe_allow_html=True
@@ -165,7 +164,7 @@ while True:
             textfont=dict(size=12, color="darkred", family="Arial Black")
         )
         
-        # Skala tinggi diatur ke 500 agar gambar kembali terlihat besar, jelas, dan proporsional
+        # Tinggi dikunci ke 500px agar proporsional dan muat satu monitor utuh
         fig.update_layout(
             margin=dict(l=0, r=0, t=0, b=0),
             height=500,
