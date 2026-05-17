@@ -9,17 +9,17 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Dioptimalkan: Mengizinkan scrolling halaman dan menambah jarak atas (padding-top) agar tombol terlihat
+# Dioptimalkan: Mengecilkan font-size h1 menjadi 1.4rem dan merapatkan marginnya
 st.markdown(
     """
     <style>
     html, body, [data-testid="stAppViewContainer"] {
         zoom: 1.0;
-        overflow-y: auto !important; /* Mengembalikan scroll agar tombol di atas tidak terpotong */
+        overflow-y: auto !important;
     }
     
     .block-container {
-        padding-top: 2rem !important; /* Memberikan ruang vertikal yang cukup untuk tombol navigasi */
+        padding-top: 1.5rem !important; 
         padding-bottom: 1rem !important;
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
@@ -29,9 +29,9 @@ st.markdown(
     h1 {
         text-align: center;
         font-family: 'Arial', sans-serif;
-        margin-top: 10px;
-        margin-bottom: 15px;
-        font-size: 2.0rem;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        font-size: 1.4rem; /* Diperkecil agar proporsional dan tidak memakan ruang */
         color: #31333F;
     }
     
