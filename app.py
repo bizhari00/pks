@@ -160,12 +160,11 @@ while True:
                 textfont=dict(size=11, color="darkred", family="Arial Black")
             )
         
-        fig.update_layout(
+fig.update_layout(
             margin=dict(l=0, r=0, t=15, b=0), # Margin 0 agar pas dengan bingkai halaman
             height=500,
-            autosize=True
-        )
-        showlegend=False # <--- Tambahkan ini untuk menghilangkan trace 1 & trace 2
+            autosize=True,
+            showlegend=False                  # <--- Sekarang berada di posisi yang benar dengan koma pemisah
         )
         with placeholder.container():
             st.plotly_chart(
