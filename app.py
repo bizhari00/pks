@@ -1,47 +1,31 @@
 import streamlit as st
 
-# WAJIB ditaruh di baris paling atas setelah import agar langsung dieksekusi browser
-st.set_page_config(layout="wide")  # Memaksimalkan lebar layar Streamlit
-
-st.markdown(
-    """
-    <style>
-    /* Mengunci zoom seluruh aplikasi Streamlit di skala 80% secara instan */
-    html, body, [data-testid="stAppViewContainer"] {
-        zoom: 0.95;
-        -moz-transform: scale(0.95); /* Dukungan untuk Firefox */
-        -moz-transform-origin: top center;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-import plotly.express as px
-from PIL import Image
-import time
-
-# ==========================================
-# 1. KONFIGURASI HALAMAN STREAMLIT
-# ==========================================
+# ==============================================================================
+# 1. ANTARMUKA INSTAN & GLOBAL ZOOM 80% (Paling Atas)
+# ==============================================================================
 st.set_page_config(
     page_title="Pabrik PKS",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-URL_PORTAL_FORIO = "https://forio.com/app/bustamiizhari/inl"
 st.markdown(
     """
     <style>
+    /* Mengunci zoom seluruh aplikasi Streamlit di skala 80% secara instan */
+    html, body, [data-testid="stAppViewContainer"] {
+        zoom: 0.8;
+        -moz-transform: scale(0.8); /* Dukungan untuk Firefox */
+        -moz-transform-origin: top center;
+    }
     .block-container {
-        padding-top: 2rem;
+        padding-top: 1rem;
         padding-bottom: 0rem;
     }
     h1 {
         text-align: center;
         font-family: 'Arial', sans-serif;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
     .custom-tab-btn {
         display: inline-flex;
@@ -53,7 +37,7 @@ st.markdown(
         padding: 0.4rem 1rem;
         border-radius: 0.5rem;
         font-weight: 500;
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         text-decoration: none;
         cursor: pointer;
         transition: background-color 0.16s ease-in-out;
@@ -70,6 +54,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+import plotly.express as px
+from PIL import Image
+import time
+
+# Navigation Bar
+URL_PORTAL_FORIO = "https://forio.com/app/bustamiizhari/inl"
 col_nav, _ = st.columns([2, 5])
 with col_nav:
     st.markdown(
@@ -77,76 +67,93 @@ with col_nav:
         unsafe_allow_html=True
     )
 
-st.markdown("<h1>Pabrik PKS</h1>", unsafe_allow_html=True)
+st.markdown("<h1>Pabrik PKS (Simulasi Aliran)</h1>", unsafe_allow_html=True)
 
-# ==========================================
-# 2. MEMUAT BACKGROUND IMAGE
-# ==========================================
+# ==============================================================================
+# 2. MEMUAT BACKGROUND IMAGE PKS
+# ==============================================================================
 try:
     img = Image.open("pks.png")
+    img_width, img_height = img.size
 except FileNotFoundError:
     st.error("File 'pks.png' tidak ditemukan. Pastikan file gambar ada di root repository GitHub Anda.")
     st.stop()
 
-# ==========================================
-# 3. KORDINAT AKURAT BERDASARKAN GRID ASLI (x0, y0, x1, y1)
-# ==========================================
-KOTAK_METANOL = [40, 80, 100, 210]
-KOTAK_H2SO4   = [40, 240, 100, 370]
-KOTAK_NAOH    = [370, 40, 420, 140]
-
-y_arrow = 550 
-
+# ==============================================================================
+# 3. KOORDINAT BARU BERDASARKAN DIAGRAM ALIR PABRIK PKS (Skala Estimasi Gambar)
+# ==============================================================================
+# Format koordinat Plotly imshow: [x0, y0, x1, y1] dari pojok kiri atas
 flow_path = [
+    # --- JALUR A: KEBUN SENDIRI ---
     {
-        'step_id': 'feedstock_prep',
-        'x': 90, 'y': y_arrow, 'label': 'Persiapan Bahan Awal',
-        'multiple_areas': [
-            KOTAK_METANOL,
-            KOTAK_H2SO4,
-            [40, 400, 100, 520]
-        ]
+        'step_id': 'tbs_sendiri',
+        'x': int(img_width * 0.18), 'y': int(img_height * 0.22),
+        'label': 'Laju Penerimaan TBS (Kebun Sendiri)',
+        'tank_area': [int(img_width * 0.15), int(img_height * 0.20), int(img_width * 0.22), int(img_height * 0.24)]
     },
     {
-        'step_id': 'reaktor1',
-        'x': 320, 'y': y_arrow, 'label': 'Reaktor 1 Aktif (Esterifikasi)', 
-        'tank_area': [295, 400, 360, 510]
+        'step_id': 'stock_pks_sendiri',
+        'x': int(img_width * 0.35), 'y': int(img_height * 0.24),
+        'label': 'Stock PKS Kebun Sendiri',
+        'tank_area': [int(img_width * 0.32), int(img_height * 0.16), int(img_width * 0.39), int(img_height * 0.24)]
     },
     {
-        'step_id': 'separator1',
-        'x': 420, 'y': y_arrow, 'label': 'Separator 1 Aktif', 
-        'tank_area': [430, 400, 500, 500]
+        'step_id': 'cpo_sendiri',
+        'x': int(img_width * 0.44), 'y': int(img_height * 0.11),
+        'label': 'Proses Olah & Stock CPO Sendiri',
+        'tank_area': [int(img_width * 0.49), int(img_height * 0.08), int(img_width * 0.56), int(img_height * 0.13)]
     },
     {
-        'step_id': 'reaktor2',
-        'x': 630, 'y': y_arrow, 'label': 'Reaktor 2 Aktif (TransEsterifikasi)', 
-        'tank_area': [600, 400, 660, 500]
+        'step_id': 'kernel_sendiri',
+        'x': int(img_width * 0.44), 'y': int(img_height * 0.22),
+        'label': 'Proses Olah & Stock Palm Kernel Sendiri',
+        'tank_area': [int(img_width * 0.49), int(img_height * 0.18), int(img_width * 0.58), int(img_height * 0.24)]
+    },
+    
+    # --- JALUR B: KEBUN MITRA ---
+    {
+        'step_id': 'tbs_mitra',
+        'x': int(img_width * 0.20), 'y': int(img_height * 0.77),
+        'label': 'Laju Penerimaan TBS Mitra',
+        'tank_area': [int(img_width * 0.17), int(img_height * 0.75), int(img_width * 0.24), int(img_height * 0.79)]
     },
     {
-        'step_id': 'separator2',
-        'x': 745, 'y': y_arrow, 'label': 'Separator 2 Aktif', 
-        'tank_area': [770, 410, 820, 500]
+        'step_id': 'stock_pks_mitra',
+        'x': int(img_width * 0.35), 'y': int(img_height * 0.77),
+        'label': 'Stock PKS Mitra',
+        'tank_area': [int(img_width * 0.32), int(img_height * 0.72), int(img_width * 0.38), int(img_height * 0.81)]
     },
     {
-        'step_id': 'washdrum',
-        'x': 920, 'y': y_arrow, 'label': 'Wash Drum Aktif', 
-        'tank_area': [890, 400, 950, 500]
+        'step_id': 'cpo_mitra',
+        'x': int(img_width * 0.43), 'y': int(img_height * 0.69),
+        'label': 'Laju Olah & Stock CPO Mitra',
+        'tank_area': [int(img_width * 0.48), int(img_height * 0.68), int(img_width * 0.55), int(img_height * 0.73)]
     },
     {
-        'step_id': 'evaporator',
-        'x': 1025, 'y': y_arrow, 'label': 'Evaporator Aktif', 
-        'tank_area': [980, 410, 1050, 500]
+        'step_id': 'kernel_mitra',
+        'x': int(img_width * 0.43), 'y': int(img_height * 0.78),
+        'label': 'Laju Olah & Stock Palm Kernel Mitra',
+        'tank_area': [int(img_width * 0.48), int(img_height * 0.77), int(img_width * 0.56), int(img_height * 0.83)]
+    },
+
+    # --- JALUR OUTPUT TOTAL TRANSMISI ---
+    {
+        'step_id': 'total_cpo',
+        'x': int(img_width * 0.75), 'y': int(img_height * 0.35),
+        'label': 'Total CPO Yang Dihasilkan',
+        'tank_area': [int(img_width * 0.77), int(img_height * 0.30), int(img_width * 0.85), int(img_height * 0.52)]
     },
     {
-        'step_id': 'biodiesel',
-        'x': 1200, 'y': y_arrow, 'label': 'Produk Biodiesel', 
-        'tank_area': [1150, 400, 1250, 530]
+        'step_id': 'total_kernel',
+        'x': int(img_width * 0.75), 'y': int(img_height * 0.70),
+        'label': 'Total Palm Kernel Yang Dihasilkan',
+        'tank_area': [int(img_width * 0.77), int(img_height * 0.65), int(img_width * 0.85), int(img_height * 0.85)]
     }
 ]
 
-# ==========================================
-# 4. LOGIKA ANIMASI JALUR PROSES DENGAN KOTAK PRESISI
-# ==========================================
+# ==============================================================================
+# 4. LOOPING ANIMASI BERJALAN SECARA PARALEL/BERURUTAN
+# ==============================================================================
 placeholder = st.empty()
 render_count = 0
 
@@ -158,45 +165,32 @@ while True:
         fig.update_xaxes(visible=False)
         fig.update_yaxes(visible=False)
         
-        # 1. LOGIKA PEWARNAAN KOTAK HIJAU TRANSPARAN
-        if 'multiple_areas' in current:
-            for area in current['multiple_areas']:
-                fig.add_shape(
-                    type="rect", x0=area[0], y0=area[1], x1=area[2], y1=area[3],
-                    fillcolor="rgba(0, 255, 0, 0.4)", line=dict(color="LimeGreen", width=2),
-                )
-        else:
-            area = current['tank_area']
-            fig.add_shape(
-                type="rect", x0=area[0], y0=area[1], x1=area[2], y1=area[3],
-                fillcolor="rgba(0, 255, 0, 0.4)", line=dict(color="LimeGreen", width=2),
-            )
-            
-        # 2. LOGIKA KONDISIONAL TANGKI PROSES ATAS
-        if current['step_id'] == 'reaktor1':
-            for area in [KOTAK_METANOL, KOTAK_H2SO4]:
-                fig.add_shape(
-                    type="rect", x0=area[0], y0=area[1], x1=area[2], y1=area[3],
-                    fillcolor="rgba(0, 255, 0, 0.4)", line=dict(color="LimeGreen", width=2)
-                )
-        elif current['step_id'] == 'reaktor2':
-            fig.add_shape(
-                type="rect", x0=KOTAK_NAOH[0], y0=KOTAK_NAOH[1], x1=KOTAK_NAOH[2], y1=KOTAK_NAOH[3],
-                fillcolor="rgba(0, 255, 0, 0.4)", line=dict(color="LimeGreen", width=2)
-            )
-
-        # 3. PENANDA PANAH SEGITIGA KUNING ANIMASI
-        fig.add_scatter(
-            x=[current['x']], y=[current['y']], mode="markers+text",
-            marker=dict(size=35, color="yellow", symbol="triangle-right", line=dict(width=3, color="orange")),
-            text=[current['label']], textposition="bottom center",
-            textfont=dict(size=21, color="darkred", family="Arial Black")
+        # 1. GAMBAR KOTAK HIJAU TRANSPARAN PADA PROSES YANG AKTIF
+        area = current['tank_area']
+        fig.add_shape(
+            type="rect", 
+            x0=area[0], y0=area[1], x1=area[2], y1=area[3],
+            fillcolor="rgba(0, 255, 0, 0.35)",
+            line=dict(color="LimeGreen", width=3),
         )
         
-        fig.update_layout(margin=dict(l=5, r=5, t=5, b=5), height=680)
+        # 2. SEGI TIGA PENANDA GERAKAN KUNING
+        fig.add_scatter(
+            x=[current['x']], y=[current['y']], mode="markers+text",
+            marker=dict(size=30, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
+            text=[current['label']], textposition="top center",
+            textfont=dict(size=18, color="darkred", family="Arial Black")
+        )
+        
+        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=650)
         
         with placeholder.container():
-            st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False}, key=f"plotly_render_{render_count}")
+            st.plotly_chart(
+                fig, 
+                use_container_width=True, 
+                config={'displayModeBar': False}, 
+                key=f"pks_render_{render_count}"
+            )
         
         render_count += 1
-        time.sleep(1.8)
+        time.sleep(1.5)  # Kecepatan transisi alur per langkah
