@@ -9,20 +9,18 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Gunakan CSS seminimal mungkin untuk menghindari konflik dengan pembatas bingkai Forio
+# Optimasi padding halaman agar lebih ringkas dan hemat ruang vertikal
 st.markdown(
     """
     <style>
-    /* Mengaktifkan scroll vertikal alami agar halaman fleksibel */
     html, body, [data-testid="stAppViewContainer"] {
         zoom: 1.0;
         overflow-y: auto !important;
     }
     
-    /* Mengatur jarak padding atas agar tombol navigasi memiliki ruang bernapas */
     .block-container {
-        padding-top: 2rem !important; 
-        padding-bottom: 2rem !important;
+        padding-top: 1rem !important; 
+        padding-bottom: 1rem !important;
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
         max-width: 100% !important;
@@ -37,14 +35,14 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. STRUKTUR TATA LETAK VERTIKAL STANDARD (Anti-Terpotong)
+# 2. STRUKTUR TATA LETAK VERTIKAL STANDARD (Anti-Terpotong & Presisi)
 # ==============================================================================
 
-# Baris 1: Tombol Kembali Ke Menu Utama (Diberi ruang penuh agar stabil di atas)
+# Baris 1: Tombol Kembali Ke Menu Utama
 st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=False)
 
-# Baris 2: Judul Menggunakan Subheader Bawaan (Ukuran pas & proporsional)
-st.subheader("Pabrik PKS (Simulasi Aliran)")
+# Baris 2: Judul dengan ukuran font yang diperkecil sedikit lagi agar pas
+st.markdown("<h3 style='margin-top:10px; margin-bottom:5px; font-size:1.35rem; font-family:sans-serif;'>Pabrik PKS (Simulasi Aliran)</h3>", unsafe_allow_html=True)
 
 # Baris 3: Garis Pembatas
 st.divider()
@@ -131,7 +129,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 5. LOOPING SIMULASI (PENGUNCIAN TINGGI GRAFIK PLOTLY)
+# 5. LOOPING SIMULASI (PENGUNCIAN TINGGI GRAFIK DI LEVEL PLOTLY)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -161,10 +159,10 @@ while True:
             textfont=dict(size=12, color="darkred", family="Arial Black")
         )
         
-        # Mengatur tinggi tampilan canvas simulasi (dioptimalkan ke 540 agar seimbang di web app)
+        # DIKECILKAN SEDIKIT: Mengunci tinggi canvas simulasi ke 460px agar pas satu layar monitor
         fig.update_layout(
             margin=dict(l=0, r=0, t=0, b=0),
-            height=540,
+            height=460,
             autosize=True
         )
         
