@@ -1,8 +1,7 @@
-
 import streamlit as st
 
 # ==============================================================================
-# 1. ANTARMUKA INSTAN & GLOBAL ZOOM PENGUNCI (Wajib Paling Atas)
+# 1. ANTARMUKA INSTAN & OPTIMALISASI UKURAN MAKSIMAL (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
     page_title="Pabrik PKS",
@@ -13,26 +12,25 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Mengunci zoom seluruh aplikasi Streamlit di skala 80% secara instan */
+    /* Mengembalikan zoom ke normal agar gambar tidak menciut menjadi kecil */
     html, body, [data-testid="stAppViewContainer"] {
-        zoom: 0.80;
-        -moz-transform: scale(0.80); /* Dukungan untuk Firefox */
-        -moz-transform-origin: top center;
+        zoom: 1.0;
     }
     
-    /* Memaksimalkan lebar layar 100% penuh tanpa menyisakan margin kosong di tepi kanan-kiri */
+    /* Memaksa kontainer Streamlit menggunakan 100% lebar layar tanpa margin kosong */
     .block-container {
-        padding-top: 1rem;
+        padding-top: 0.5rem;
         padding-bottom: 0rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
         max-width: 100% !important;
     }
     
     h1 {
         text-align: center;
         font-family: 'Arial', sans-serif;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
+        font-size: 2.2rem;
     }
     
     .custom-tab-btn {
@@ -45,12 +43,13 @@ st.markdown(
         padding: 0.4rem 1rem;
         border-radius: 0.5rem;
         font-weight: 500;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         text-decoration: none;
         cursor: pointer;
         transition: background-color 0.16s ease-in-out;
         width: 100%;
-        height: 42px;
+        height: 40px;
+        margin-left: 10px;
     }
     
     .custom-tab-btn:hover {
@@ -91,77 +90,76 @@ except FileNotFoundError:
 # ==============================================================================
 # 3. KOORDINAT BERDASARKAN DIAGRAM ALIR PABRIK PKS (Skala Rasio Gambar)
 # ==============================================================================
-# Format koordinat Plotly: [x0, y0, x1, y1] dihitung proporsional dari ukuran asli gambar
 flow_path = [
     # --- JALUR A: KEBUN SENDIRI ---
     {
         'step_id': 'tbs_sendiri',
-        'x': int(img_width * 0.18), 'y': int(img_height * 0.22),
+        'x': int(img_width * 0.17), 'y': int(img_height * 0.42),
         'label': 'Laju Penerimaan TBS (Kebun Sendiri)',
-        'tank_area': [int(img_width * 0.15), int(img_height * 0.20), int(img_width * 0.22), int(img_height * 0.24)]
+        'tank_area': [int(img_width * 0.14), int(img_height * 0.38), int(img_width * 0.20), int(img_height * 0.45)]
     },
     {
         'step_id': 'stock_pks_sendiri',
-        'x': int(img_width * 0.35), 'y': int(img_height * 0.24),
+        'x': int(img_width * 0.30), 'y': int(img_height * 0.41),
         'label': 'Stock PKS Kebun Sendiri',
-        'tank_area': [int(img_width * 0.32), int(img_height * 0.16), int(img_width * 0.39), int(img_height * 0.24)]
+        'tank_area': [int(img_width * 0.25), int(img_height * 0.37), int(img_width * 0.35), int(img_height * 0.45)]
     },
     {
         'step_id': 'cpo_sendiri',
-        'x': int(img_width * 0.44), 'y': int(img_height * 0.11),
-        'label': 'Proses Olah & Stock CPO Sendiri',
-        'tank_area': [int(img_width * 0.49), int(img_height * 0.08), int(img_width * 0.56), int(img_height * 0.13)]
+        'x': int(img_width * 0.54), 'y': int(img_height * 0.33),
+        'label': 'Stock CPO Kebun Sendiri',
+        'tank_area': [int(img_width * 0.49), int(img_height * 0.29), int(img_width * 0.59), int(img_height * 0.36)]
     },
     {
         'step_id': 'kernel_sendiri',
-        'x': int(img_width * 0.44), 'y': int(img_height * 0.22),
-        'label': 'Proses Olah & Stock Palm Kernel Sendiri',
-        'tank_area': [int(img_width * 0.49), int(img_height * 0.18), int(img_width * 0.58), int(img_height * 0.24)]
+        'x': int(img_width * 0.54), 'y': int(img_height * 0.41),
+        'label': 'Stock Palm Kernel Kebun Sendiri',
+        'tank_area': [int(img_width * 0.49), int(img_height * 0.38), int(img_width * 0.59), int(img_height * 0.45)]
     },
      
     # --- JALUR B: KEBUN MITRA ---
     {
         'step_id': 'tbs_mitra',
-        'x': int(img_width * 0.20), 'y': int(img_height * 0.77),
+        'x': int(img_width * 0.26), 'y': int(img_height * 0.81),
         'label': 'Laju Penerimaan TBS Mitra',
-        'tank_area': [int(img_width * 0.17), int(img_height * 0.75), int(img_width * 0.24), int(img_height * 0.79)]
+        'tank_area': [int(img_width * 0.23), int(img_height * 0.77), int(img_width * 0.29), int(img_height * 0.84)]
     },
     {
         'step_id': 'stock_pks_mitra',
-        'x': int(img_width * 0.35), 'y': int(img_height * 0.77),
+        'x': int(img_width * 0.37), 'y': int(img_height * 0.90),
         'label': 'Stock PKS Mitra',
-        'tank_area': [int(img_width * 0.32), int(img_height * 0.72), int(img_width * 0.38), int(img_height * 0.81)]
+        'tank_area': [int(img_width * 0.33), int(img_height * 0.86), int(img_width * 0.41), int(img_height * 0.93)]
     },
     {
         'step_id': 'cpo_mitra',
-        'x': int(img_width * 0.43), 'y': int(img_height * 0.69),
-        'label': 'Laju Olah & Stock CPO Mitra',
-        'tank_area': [int(img_width * 0.48), int(img_height * 0.68), int(img_width * 0.55), int(img_height * 0.73)]
+        'x': int(img_width * 0.54), 'y': int(img_height * 0.77),
+        'label': 'Stock CPO Mitra',
+        'tank_area': [int(img_width * 0.49), int(img_height * 0.73), int(img_width * 0.59), int(img_height * 0.80)]
     },
     {
         'step_id': 'kernel_mitra',
-        'x': int(img_width * 0.43), 'y': int(img_height * 0.78),
-        'label': 'Laju Olah & Stock Palm Kernel Mitra',
-        'tank_area': [int(img_width * 0.48), int(img_height * 0.77), int(img_width * 0.56), int(img_height * 0.83)]
+        'x': int(img_width * 0.54), 'y': int(img_height * 0.85),
+        'label': 'Stock Palm Kernel Mitra',
+        'tank_area': [int(img_width * 0.49), int(img_height * 0.82), int(img_width * 0.59), int(img_height * 0.89)]
     },
 
     # --- JALUR OUTPUT TOTAL TRANSMISI ---
     {
         'step_id': 'total_cpo',
-        'x': int(img_width * 0.75), 'y': int(img_height * 0.35),
+        'x': int(img_width * 0.85), 'y': int(img_height * 0.45),
         'label': 'Total CPO Yang Dihasilkan',
-        'tank_area': [int(img_width * 0.77), int(img_height * 0.30), int(img_width * 0.85), int(img_height * 0.52)]
+        'tank_area': [int(img_width * 0.79), int(img_height * 0.36), int(img_width * 0.91), int(img_height * 0.55)]
     },
     {
         'step_id': 'total_kernel',
-        'x': int(img_width * 0.75), 'y': int(img_height * 0.70),
+        'x': int(img_width * 0.85), 'y': int(img_height * 0.76),
         'label': 'Total Palm Kernel Yang Dihasilkan',
-        'tank_area': [int(img_width * 0.77), int(img_height * 0.65), int(img_width * 0.85), int(img_height * 0.85)]
+        'tank_area': [int(img_width * 0.79), int(img_height * 0.67), int(img_width * 0.91), int(img_height * 0.86)]
     }
 ]
 
 # ==============================================================================
-# 4. LOOPING ANIMASI BERJALAN RESPONSIVE (ANTI-TERPOTONG)
+# 4. LOOPING ANIMASI BERJALAN RESPONSIVE (UKURAN PENUH)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -186,15 +184,14 @@ while True:
         # 2. SEGI TIGA PENANDA GERAKAN KUNING
         fig.add_scatter(
             x=[current['x']], y=[current['y']], mode="markers+text",
-            marker=dict(size=30, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
+            marker=dict(size=32, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
             text=[current['label']], textposition="top center",
             textfont=dict(size=18, color="darkred", family="Arial Black")
         )
         
-        # Mengizinkan autosize dinamis dan menurunkan tinggi grafik agar aspek rasio melebar ke kanan
+        # Mengizinkan autosize tanpa batas height agar mengikuti resolusi asli gambar secara maksimal
         fig.update_layout(
             margin=dict(l=0, r=0, t=0, b=0), 
-            height=600, 
             autosize=True
         )
         
@@ -204,10 +201,10 @@ while True:
                 use_container_width=True, 
                 config={
                     'displayModeBar': False,
-                    'responsive': True # Memaksa Plotly mereduksi skala gambar mengikuti lebar layar browser
+                    'responsive': True
                 }, 
                 key=f"pks_render_{render_count}"
             )
         
         render_count += 1
-        time.sleep(1.5)  # Interval pergerakan animasi
+        time.sleep(1.6)
