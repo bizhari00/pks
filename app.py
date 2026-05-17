@@ -154,9 +154,9 @@ while True:
             textfont=dict(size=12, color="darkred", family="Arial Black")
         )
         
-        # Mengatur margin tata letak: t=40 memberikan ruang kosong di sisi atas (menurunkan diagram)
+        # Nilai t=75 ditambahkan untuk menurunkan diagram sedikit lagi dari garis pembatas
         fig.update_layout(
-            margin=dict(l=0, r=0, t=40, b=0),
+            margin=dict(l=0, r=0, t=75, b=0),
             height=520,
             autosize=True
         )
