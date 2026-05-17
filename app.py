@@ -7,7 +7,7 @@ import time
 # 1. KONFIGURASI HALAMAN STREAMLIT
 # ==========================================
 st.set_page_config(
-    page_title="PFAD Produksi Biodiesel",
+    page_title="Pabrik PKS",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -59,15 +59,15 @@ with col_nav:
         unsafe_allow_html=True
     )
 
-st.markdown("<h1>PFAD Biodiesel</h1>", unsafe_allow_html=True)
+st.markdown("<h1>Pabrik PKS</h1>", unsafe_allow_html=True)
 
 # ==========================================
 # 2. MEMUAT BACKGROUND IMAGE
 # ==========================================
 try:
-    img = Image.open("rivaldi.png")
+    img = Image.open("pks.png")
 except FileNotFoundError:
-    st.error("File 'rivaldi.png' tidak ditemukan. Pastikan file gambar ada di root repository GitHub Anda.")
+    st.error("File 'pks.png' tidak ditemukan. Pastikan file gambar ada di root repository GitHub Anda.")
     st.stop()
 
 # ==========================================
