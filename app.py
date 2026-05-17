@@ -4,7 +4,7 @@ import streamlit as st
 # 1. KONFIGURASI HALAMAN UTAMA (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
-    page_title="Pabrik PKS - Grid Kelipatan 25",
+    page_title="Pabrik PKS - Grid Kelipatan 50",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -43,7 +43,7 @@ with col_btn:
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
 with col_title:
-    st.subheader("Mode Kalibrasi Akurat (Grid Kerapatan 25 px)")
+    st.subheader("Mode Kalibrasi (Grid Kerapatan 50 px)")
 
 st.divider()
 
@@ -133,7 +133,7 @@ process_phases = [
 ]
 
 # ==============================================================================
-# 6. LOOPING SIMULASI (GRID RESOLUSI TINGGI / INCREMENT 25)
+# 6. LOOPING SIMULASI (DENGAN GRID INCREMENT 50)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -142,20 +142,20 @@ while True:
     for phase in process_phases:
         fig = px.imshow(img)
         
-        # --- AKTIFKAN GRID RAPAT KELIPATAN 25 ---
+        # --- MENGAKTIFKAN GRID KELIPATAN 50 ---
         fig.update_xaxes(
             visible=True, 
             showgrid=True, 
             gridwidth=1, 
-            gridcolor='rgba(255, 0, 0, 0.25)', # Warna merah tipis agar tidak terlalu silau
-            dtick=25 # Garis grid muncul setiap 25 piksel
+            gridcolor='rgba(255, 0, 0, 0.3)', # Garis merah tipis pembantu
+            dtick=50 # Interval sumbu X per 50 piksel
         )
         fig.update_yaxes(
             visible=True, 
             showgrid=True, 
             gridwidth=1, 
-            gridcolor='rgba(255, 0, 0, 0.25)', 
-            dtick=25
+            gridcolor='rgba(255, 0, 0, 0.3)', 
+            dtick=50 # Interval sumbu Y per 50 piksel
         )
         
         for component in phase:
@@ -176,7 +176,7 @@ while True:
                 textfont=dict(size=12, color="darkred", family="Arial Black")
             )
         
-        # Penyesuaian layout agar koordinat sumbu X dan Y terbaca nyaman
+        # Penyesuaian ruang agar label sumbu XY terbaca dengan baik
         fig.update_layout(
             margin=dict(l=40, r=40, t=15, b=25),
             height=510,
@@ -191,8 +191,8 @@ while True:
                     'displayModeBar': True,
                     'responsive': True
                 }, 
-                key=f"pks_grid_25_{render_count}"
+                key=f"pks_grid_50_{render_count}"
             )
         
         render_count += 1
-        time.sleep(3.0) # Waktu tunggu dinaikkan ke 3 detik agar lebih leluasa membaca grid 25
+        time.sleep(3.0) # Memberi waktu yang cukup untuk membaca nilai koordinat sebelum loop berganti
