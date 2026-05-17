@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ==============================================================================
-# 1. ANTARMUKA RESPONSIF & PENYELARASAN TOMBOL UTAMA (Wajib Paling Atas)
+# 1. KONFIGURASI HALAMAN UTAMA (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
     page_title="Pabrik PKS",
@@ -9,35 +9,23 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Dioptimalkan: Mengecilkan font-size h1 menjadi 1.4rem dan merapatkan marginnya
+# Pembersihan CSS kustom agar layout mengikuti alur grid bawaan Streamlit yang stabil
 st.markdown(
     """
     <style>
+    /* Mengizinkan scrollbar vertikal bekerja secara natural jika resolusi monitor kecil */
     html, body, [data-testid="stAppViewContainer"] {
         zoom: 1.0;
         overflow-y: auto !important;
     }
     
+    /* Memaksimalkan area kerja aplikasi */
     .block-container {
-        padding-top: 1.5rem !important; 
+        padding-top: 1rem !important; 
         padding-bottom: 1rem !important;
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
         max-width: 100% !important;
-    }
-    
-    h1 {
-        text-align: center;
-        font-family: 'Arial', sans-serif;
-        margin-top: 5px;
-        margin-bottom: 10px;
-        font-size: 1.4rem; /* Diperkecil agar proporsional dan tidak memakan ruang */
-        color: #31333F;
-    }
-    
-    /* Memastikan bingkai Chart Plotly tidak memaksa layout meluber ekstrem */
-    div[data-testid="stPlotlyChart"] {
-        max-height: 70vh !important;
     }
     </style>
     """,
@@ -49,13 +37,21 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. NAVIGASI UTAMA (Native Streamlit Button - Menjamin Posisi Teratas)
+# 2. NAVIGASI & JUDUL PROPORSIONAL (Menggunakan Native Streamlit)
 # ==============================================================================
-col_btn, _ = st.columns([3, 7])
-with col_btn:
+# Menggunakan kolom horizontal agar Tombol Kembali dan Judul berada di baris yang seimbang
+col_nav, col_title = st.columns([3, 7])
+
+with col_nav:
+    # Tombol menggunakan bawaan Streamlit yang otomatis muncul paling atas
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
-st.markdown("<h1>Pabrik PKS (Simulasi Aliran)</h1>", unsafe_allow_html=True)
+with col_title:
+    # Menggunakan subheader agar ukuran teks tidak terlalu besar atau dominan
+    st.subheader("Pabrik PKS (Simulasi Aliran)")
+
+# Berikan garis pemisah tipis yang rapi
+st.divider()
 
 # ==============================================================================
 # 3. MEMUAT BACKGROUND IMAGE PKS
@@ -139,7 +135,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 5. LOOPING SIMULASI (EFEK RESPONSIF)
+# 5. LOOPING SIMULASI (PENGUNCIAN TINGGI GAMBAR DI LEVEL PLOTLY)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -164,13 +160,16 @@ while True:
         # 2. Segitiga Gerak Kuning & Label Teks
         fig.add_scatter(
             x=[current['x']], y=[current['y']], mode="markers+text",
-            marker=dict(size=26, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
+            marker=dict(size=24, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
             text=[current['label']], textposition="bottom center",
-            textfont=dict(size=13, color="darkred", family="Arial Black")
+            textfont=dict(size=12, color="darkred", family="Arial Black")
         )
         
+        # DIKUNCI DI SINI: Tinggi gambar dibatasi langsung pada layout Plotly (520 piksel) 
+        # agar pas di layar monitor dan tidak memotong komponen atas maupun bawah.
         fig.update_layout(
             margin=dict(l=0, r=0, t=0, b=0),
+            height=520,
             autosize=True
         )
         
