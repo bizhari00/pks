@@ -4,7 +4,7 @@ import streamlit as st
 # 1. KONFIGURASI HALAMAN UTAMA (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
-    page_title="Pabrik PKS",
+    page_title="Pabrik PKS - Mode Grid",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -43,7 +43,7 @@ with col_btn:
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
 with col_title:
-    st.subheader("Pabrik PKS (Simulasi Aliran)")
+    st.subheader("Mode Kalibrasi: Pabrik PKS (Grid & XY Axis Aktif)")
 
 st.divider()
 
@@ -58,9 +58,8 @@ except FileNotFoundError:
     st.stop()
 
 # ==============================================================================
-# 5. STRUKTUR FASE PROSES PARALEL (Kebun Sendiri & Mitra Jalan Bersamaan)
+# 5. STRUKTUR FASE PROSES PARALEL
 # ==============================================================================
-# Di sini kita kelompokkan langkah-langkah yang harus menyala berbarengan
 process_phases = [
     # --- FASE 1: PENERIMAAN TBS BARENGAN ---
     [
@@ -134,7 +133,7 @@ process_phases = [
 ]
 
 # ==============================================================================
-# 6. LOOPING SIMULASI (EKSEKUSI ANIMASI MULTI-OBJECT PARALEL)
+# 6. LOOPING SIMULASI (DENGAN TAMPILAN SUMBU DAN GRID UNTUK EDIT POSISI)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -143,10 +142,22 @@ while True:
     for phase in process_phases:
         fig = px.imshow(img)
         
-        fig.update_xaxes(visible=False)
-        fig.update_yaxes(visible=False)
+        # --- AKTIFKAN GRID & KOORDINAT UNTUK EDITING ---
+        fig.update_xaxes(
+            visible=True, 
+            showgrid=True, 
+            gridwidth=1, 
+            gridcolor='rgba(255, 0, 0, 0.3)', # Grid warna merah tipis
+            dtick=100 # Garis pembantu muncul setiap kelipatan 100 piksel
+        )
+        fig.update_yaxes(
+            visible=True, 
+            showgrid=True, 
+            gridwidth=1, 
+            gridcolor='rgba(255, 0, 0, 0.3)', 
+            dtick=100
+        )
         
-        # Di dalam satu fase, kita loop seluruh komponen objek secara simultan
         for component in phase:
             # 1. Gambar Kotak Hijau Transparan
             area = component['tank_area']
@@ -165,10 +176,10 @@ while True:
                 textfont=dict(size=12, color="darkred", family="Arial Black")
             )
         
-        # Pengaturan dimensi 80% yang sudah presisi kemarin
+        # Dimensi layout 80% dipertahankan agar rasio tetap valid saat angka diganti
         fig.update_layout(
-            margin=dict(l=40, r=40, t=15, b=0),
-            height=480,
+            margin=dict(l=40, r=40, t=15, b=20), # b ditambah 20 agar label sumbu X tidak terpotong
+            height=500, # Dinaikkan dikit ke 500 khusus saat kalibrasi agar sumbu X muat nyaman
             autosize=True
         )
         
@@ -177,11 +188,11 @@ while True:
                 fig, 
                 use_container_width=True, 
                 config={
-                    'displayModeBar': False,
+                    'displayModeBar': True, # Mengaktifkan toolbar Plotly untuk fitur hover koordinat kursor
                     'responsive': True
                 }, 
-                key=f"pks_parallel_{render_count}"
+                key=f"pks_calibration_{render_count}"
             )
         
         render_count += 1
-        time.sleep(1.8) # Ditambah sedikit biar jeda pergeseran fase paralelnya lebih mantap dinikmati
+        time.sleep(2.5) # Jeda waktu diperlama sedikit agar Bapak sempat mencatat angka XY di layar
