@@ -9,37 +9,21 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Optimasi padding halaman agar lebih ringkas dan hemat ruang vertikal
+# Pembersihan CSS: Kita hapus 'overflow: hidden' dan flexbox kustom agar grid kembali normal
 st.markdown(
     """
     <style>
     html, body, [data-testid="stAppViewContainer"] {
         zoom: 1.0;
-        overflow: hidden !important; /* Kunci mutlak agar layar tidak bisa scroll */
+        overflow-y: auto !important;
     }
     
     .block-container {
-        padding-top: 1rem !important; 
-        padding-bottom: 0.5rem !important;
+        padding-top: 1.5rem !important; 
+        padding-bottom: 1rem !important;
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
         max-width: 100% !important;
-    }
-    
-    /* Menyelaraskan komponen di dalam kolom agar sejajar secara vertikal */
-    [data-testid="column"] {
-        display: flex;
-        align-items: center;
-    }
-    
-    /* Merapatkan jarak vertikal antar elemen bawaan Streamlit */
-    [data-testid="stVerticalBlock"] {
-        gap: 0.2rem !important;
-    }
-    
-    hr {
-        margin-top: 0.2rem !important;
-        margin-bottom: 0.4rem !important;
     }
     </style>
     """,
@@ -51,17 +35,21 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. NAVIGASI & JUDUL SEBARIS (Menggunakan st.columns)
+# 2. NAVIGASI & JUDUL SEBARIS (Struktur Murni Streamlit & HTML Inline)
 # ==============================================================================
-# Membuat 2 kolom: kolom kiri untuk tombol, kolom kanan untuk judul
-col_btn, col_title = st.columns([2.5, 7.5])
+# Membagi halaman menjadi 2 kolom: Kolom kiri untuk tombol (lebar 3), Kolom kanan untuk judul (lebar 7)
+col_btn, col_title = st.columns([3, 7])
 
 with col_btn:
+    # Menggunakan tombol bawaan tanpa kustomisasi CSS ekstrem agar stabil
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
 with col_title:
-    # Menggunakan margin-left agar ada jarak aman dari tombol
-    st.markdown("<h4 style='margin: 0px 0px 0px 15px; padding: 0px; font-weight:600; font-family:sans-serif; color:#31333F; line-height: 1;'>Pabrik PKS (Simulasi Aliran)</h4>", unsafe_allow_html=True)
+    # Menampilkan judul menggunakan tag paragraf dengan padding atas agar sejajar horizontal dengan tombol
+    st.markdown(
+        "<p style='margin: 0px; padding-top: 8px; font-size: 1.35rem; font-weight: bold; font-family: sans-serif; color: #31333F;'>Pabrik PKS (Simulasi Aliran)</p>", 
+        unsafe_allow_html=True
+    )
 
 st.divider()
 
@@ -147,7 +135,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 5. LOOPING SIMULASI (OPTIMASI UKURAN PAS SATU SCREEN)
+# 5. LOOPING SIMULASI (PENGUNCIAN SKALA TINGGI DIAGRAM)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -172,15 +160,15 @@ while True:
         # 2. Segitiga Gerak Kuning & Label Teks
         fig.add_scatter(
             x=[current['x']], y=[current['y']], mode="markers+text",
-            marker=dict(size=22, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
+            marker=dict(size=24, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
             text=[current['label']], textposition="bottom center",
-            textfont=dict(size=11, color="darkred", family="Arial Black")
+            textfont=dict(size=12, color="darkred", family="Arial Black")
         )
         
-        # Mengunci tinggi canvas simulasi ke 410px agar pas satu layar monitor
+        # Skala tinggi diatur ke 500 agar gambar kembali terlihat besar, jelas, dan proporsional
         fig.update_layout(
             margin=dict(l=0, r=0, t=0, b=0),
-            height=410,
+            height=500,
             autosize=True
         )
         
