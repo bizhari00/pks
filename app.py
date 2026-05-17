@@ -166,7 +166,7 @@ fig.update_layout(
             autosize=True,
             showlegend=False                  # <--- Sekarang berada di posisi yang benar dengan koma pemisah
         )
-        with placeholder.container():
+            with placeholder.container():
             st.plotly_chart(
                 fig, 
                 use_container_width=True, 
