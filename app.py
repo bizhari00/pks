@@ -9,20 +9,20 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Pembersihan CSS kustom agar layout mengikuti alur grid bawaan Streamlit yang stabil
+# Gunakan CSS seminimal mungkin untuk menghindari konflik dengan pembatas bingkai Forio
 st.markdown(
     """
     <style>
-    /* Mengizinkan scrollbar vertikal bekerja secara natural jika resolusi monitor kecil */
+    /* Mengaktifkan scroll vertikal alami agar halaman fleksibel */
     html, body, [data-testid="stAppViewContainer"] {
         zoom: 1.0;
         overflow-y: auto !important;
     }
     
-    /* Memaksimalkan area kerja aplikasi */
+    /* Mengatur jarak padding atas agar tombol navigasi memiliki ruang bernapas */
     .block-container {
-        padding-top: 1rem !important; 
-        padding-bottom: 1rem !important;
+        padding-top: 2rem !important; 
+        padding-bottom: 2rem !important;
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
         max-width: 100% !important;
@@ -37,20 +37,16 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. NAVIGASI & JUDUL PROPORSIONAL (Menggunakan Native Streamlit)
+# 2. STRUKTUR TATA LETAK VERTIKAL STANDARD (Anti-Terpotong)
 # ==============================================================================
-# Menggunakan kolom horizontal agar Tombol Kembali dan Judul berada di baris yang seimbang
-col_nav, col_title = st.columns([3, 7])
 
-with col_nav:
-    # Tombol menggunakan bawaan Streamlit yang otomatis muncul paling atas
-    st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
+# Baris 1: Tombol Kembali Ke Menu Utama (Diberi ruang penuh agar stabil di atas)
+st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=False)
 
-with col_title:
-    # Menggunakan subheader agar ukuran teks tidak terlalu besar atau dominan
-    st.subheader("Pabrik PKS (Simulasi Aliran)")
+# Baris 2: Judul Menggunakan Subheader Bawaan (Ukuran pas & proporsional)
+st.subheader("Pabrik PKS (Simulasi Aliran)")
 
-# Berikan garis pemisah tipis yang rapi
+# Baris 3: Garis Pembatas
 st.divider()
 
 # ==============================================================================
@@ -135,7 +131,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 5. LOOPING SIMULASI (PENGUNCIAN TINGGI GAMBAR DI LEVEL PLOTLY)
+# 5. LOOPING SIMULASI (PENGUNCIAN TINGGI GRAFIK PLOTLY)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -165,11 +161,10 @@ while True:
             textfont=dict(size=12, color="darkred", family="Arial Black")
         )
         
-        # DIKUNCI DI SINI: Tinggi gambar dibatasi langsung pada layout Plotly (520 piksel) 
-        # agar pas di layar monitor dan tidak memotong komponen atas maupun bawah.
+        # Mengatur tinggi tampilan canvas simulasi (dioptimalkan ke 540 agar seimbang di web app)
         fig.update_layout(
             margin=dict(l=0, r=0, t=0, b=0),
-            height=520,
+            height=540,
             autosize=True
         )
         
