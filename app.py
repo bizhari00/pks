@@ -43,7 +43,7 @@ with col_btn:
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
 with col_title:
-    st.subheader("Monitoring Real-Time Aliran Fase Produksi PKS")
+    st.subheader("Produksi PKS")
 
 st.divider()
 
