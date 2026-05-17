@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Meminimalkan semua padding default Streamlit agar area kerja naik maksimal
+# Optimasi padding halaman agar lebih ringkas dan hemat ruang vertikal
 st.markdown(
     """
     <style>
@@ -19,21 +19,27 @@ st.markdown(
     }
     
     .block-container {
-        padding-top: 0.8rem !important; 
+        padding-top: 1rem !important; 
         padding-bottom: 0.5rem !important;
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
         max-width: 100% !important;
     }
     
+    /* Menyelaraskan komponen di dalam kolom agar sejajar secara vertikal */
+    [data-testid="column"] {
+        display: flex;
+        align-items: center;
+    }
+    
     /* Merapatkan jarak vertikal antar elemen bawaan Streamlit */
     [data-testid="stVerticalBlock"] {
-        gap: 0.3rem !important;
+        gap: 0.2rem !important;
     }
     
     hr {
-        margin-top: 0.3rem !important;
-        margin-bottom: 0.5rem !important;
+        margin-top: 0.2rem !important;
+        margin-bottom: 0.4rem !important;
     }
     </style>
     """,
@@ -45,14 +51,17 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. NAVIGASI & JUDUL MINIMALIS (Hemat Ruang Vertikal)
+# 2. NAVIGASI & JUDUL SEBARIS (Menggunakan st.columns)
 # ==============================================================================
+# Membuat 2 kolom: kolom kiri untuk tombol, kolom kanan untuk judul
+col_btn, col_title = st.columns([2.5, 7.5])
 
-# Baris 1: Tombol Kembali Ke Menu Utama
-st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=False)
+with col_btn:
+    st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
-# Baris 2: Judul Ringkas (Ukuran h4 agar hemat tempat)
-st.markdown("<h4 style='margin-top:2px; margin-bottom:2px; font-weight:600; font-family:sans-serif; color:#31333F;'>Pabrik PKS (Simulasi Aliran)</h4>", unsafe_allow_html=True)
+with col_title:
+    # Menggunakan margin-left agar ada jarak aman dari tombol
+    st.markdown("<h4 style='margin: 0px 0px 0px 15px; padding: 0px; font-weight:600; font-family:sans-serif; color:#31333F; line-height: 1;'>Pabrik PKS (Simulasi Aliran)</h4>", unsafe_allow_html=True)
 
 st.divider()
 
@@ -168,7 +177,7 @@ while True:
             textfont=dict(size=11, color="darkred", family="Arial Black")
         )
         
-        # OPTIMASI AKHIR: Diturunkan ke tinggi 410px & dipaksa skalanisasi proporsional
+        # Mengunci tinggi canvas simulasi ke 410px agar pas satu layar monitor
         fig.update_layout(
             margin=dict(l=0, r=0, t=0, b=0),
             height=410,
