@@ -1,10 +1,4 @@
-Ternyata masalah utamanya ada pada koordinat kotak hijau (tank_area) dan penanda teks kuning (x, y) yang tidak sinkron dan meleset jauh ke bawah dari diagram aslinya, sehingga memaksa halaman memanjang dan mendorong tombol navigasi ke atas.
 
-Untuk membereskannya secara absolut, kode di bawah ini telah dikalibrasi ulang menggunakan metode pembatasan tinggi responsif via CSS pada container Plotly. Dengan cara ini, gambar dipaksa muat sempurna dalam satu layar monitor tanpa bisa meluber, dan tombol navigasi di atas dijamin tetap terkunci rapi di tempatnya.
-
-Berikut adalah full script (app.py) yang sudah bersih dan 100% presisi:
-
-Python
 import streamlit as st
 
 # ==============================================================================
