@@ -14,8 +14,8 @@ st.markdown(
     <style>
     /* Mengunci zoom seluruh aplikasi Streamlit di skala 80% secara instan */
     html, body, [data-testid="stAppViewContainer"] {
-        zoom: 0.95;
-        -moz-transform: scale(0.95); /* Dukungan untuk Firefox */
+        zoom: 0.9;
+        -moz-transform: scale(0.9); /* Dukungan untuk Firefox */
         -moz-transform-origin: top center;
     }
     .block-container {
@@ -67,7 +67,7 @@ with col_nav:
         unsafe_allow_html=True
     )
 
-st.markdown("<h1>Pabrik PKS (Simulasi Aliran)</h1>", unsafe_allow_html=True)
+st.markdown("<h1>Pabrik PKS</h1>", unsafe_allow_html=True)
 
 # ==============================================================================
 # 2. MEMUAT BACKGROUND IMAGE PKS
