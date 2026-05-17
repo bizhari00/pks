@@ -53,11 +53,11 @@ st.divider()
 try:
     img = Image.open("pks.png")
 except FileNotFoundError:
-    st.error("File 'pks.png' tidak ditemukan. Pastikan file gambar ada di root repository GitHub Anda.")
+    st.error("File 'pks.png' tidur/tidak ditemukan. Pastikan file gambar ada di root repository GitHub Anda.")
     st.stop()
 
 # ==============================================================================
-# 5. INPUT KOORDINAT XY MURNI (Silakan Edit Angka di Sini Sesuai Grid 50 px)
+# 5. INPUT KOORDINAT XY MURNI (Fokus pada tank_area saja)
 #    Format tank_area: [X_Mulai, Y_Mulai, X_Akhir, Y_Akhir]
 # ==============================================================================
 process_phases = [
@@ -65,12 +65,10 @@ process_phases = [
     [
         {
             'label': 'Laju Penerimaan TBS Kebun Sendiri',
-            'x': 150, 'y': 234,
             'tank_area': [177, 121, 295, 210]
         },
         {
             'label': 'Laju Penerimaan TBS Mitra',
-            'x': 150, 'y': 449,
             'tank_area': [192, 485, 332, 610]
         }
     ],
@@ -79,12 +77,10 @@ process_phases = [
     [
         {
             'label': 'Stock PKS Kebun Sendiri',
-            'x': 350, 'y': 200,
             'tank_area': [310, 185, 390, 215]
         },
         {
             'label': 'Stock PKS Mitra',
-            'x': 350, 'y': 400,
             'tank_area': [310, 385, 390, 415]
         }
     ],
@@ -93,12 +89,10 @@ process_phases = [
     [
         {
             'label': 'Stock CPO Kebun Sendiri',
-            'x': 540, 'y': 150,
             'tank_area': [500, 135, 580, 165]
         },
         {
             'label': 'Stock CPO Mitra',
-            'x': 540, 'y': 350,
             'tank_area': [500, 335, 580, 365]
         }
     ],
@@ -107,12 +101,10 @@ process_phases = [
     [
         {
             'label': 'Stock Palm Kernel Kebun Sendiri',
-            'x': 540, 'y': 200,
             'tank_area': [500, 185, 580, 215]
         },
         {
             'label': 'Stock Palm Kernel Mitra',
-            'x': 540, 'y': 400,
             'tank_area': [500, 385, 580, 415]
         }
     ],
@@ -121,12 +113,10 @@ process_phases = [
     [
         {
             'label': 'Total CPO Yang Dihasilkan',
-            'x': 810, 'y': 225,
             'tank_area': [760, 185, 860, 255]
         },
         {
             'label': 'Total Palm Kernel Yang Dihasilkan',
-            'x': 810, 'y': 380,
             'tank_area': [760, 345, 860, 415]
         }
     ]
@@ -159,8 +149,9 @@ while True:
         )
         
         for component in phase:
-            # 1. Menggambar Kotak Berdasarkan Nilai XY Murni
             area = component['tank_area']
+            
+            # 1. Menggambar Kotak Berdasarkan Nilai XY Murni
             fig.add_shape(
                 type="rect", 
                 x0=area[0], y0=area[1], x1=area[2], y1=area[3],
@@ -168,13 +159,17 @@ while True:
                 line=dict(color="LimeGreen", width=3),
             )
             
-            # 2. Menggambar Teks Label Saja (Tanpa Segitiga Kuning)
+            # 2. Perhitungan Otomatis Koordinat Label di Bawah Kotak
+            text_x = (area[0] + area[2]) / 2  # Titik tengah horizontal kotak
+            text_y = area[3] + 20             # Menaruh teks 20 piksel di bawah batas bawah kotak
+            
+            # 3. Menggambar Teks Label Hasil Kalkulasi Dinamis
             fig.add_scatter(
-                x=[component['x']], y=[component['y']], 
-                mode="text", # Diubah menjadi text saja untuk menghilangkan marker segitiga
+                x=[text_x], y=[text_y], 
+                mode="text",
                 text=[component['label']], 
                 textposition="bottom center",
-                textfont=dict(size=12, color="darkred", family="Arial Black")
+                textfont=dict(size=11, color="darkred", family="Arial Black")
             )
         
         fig.update_layout(
