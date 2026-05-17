@@ -70,7 +70,7 @@ process_phases = [
         },
         {
             'label': 'Laju Penerimaan TBS Mitra',
-            'x': 12o, 'y': 449,
+            'x': 120, 'y': 449,
             'tank_area': [192, 485, 332, 610]
         }
     ],
