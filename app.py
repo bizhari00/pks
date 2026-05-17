@@ -77,7 +77,7 @@ process_phases = [
     [
         {
             'label': 'Stock PKS Kebun Sendiri',
-            'tank_area': [322, 188, 466, 115]
+            'tank_area': [620, 40, 755, 110]
         },
         {
             'label': 'Stock PKS Mitra',
