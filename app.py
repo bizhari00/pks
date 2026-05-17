@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ==============================================================================
-# 1. ANTARMUKA RESPONSIF & DOCKING TOMBOL NAVIGASI (Wajib Paling Atas)
+# 1. KONFIGURASI HALAMAN UTAMA (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
     page_title="Pabrik PKS",
@@ -9,57 +9,32 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# Optimasi CSS untuk margin, jarak, dan responsivitas teks judul
 st.markdown(
     """
     <style>
-    /* Mengunci halaman agar tidak memiliki scrollbar vertikal ganda */
+    /* Mengizinkan scrolling normal jika vertical space monitor terbatas */
     html, body, [data-testid="stAppViewContainer"] {
         zoom: 1.0;
-        overflow: hidden;
+        overflow-y: auto;
     }
     
-    /* Memaksimalkan container tanpa margin kosong di sisi kanan-kiri */
+    /* Mengurangi padding atas agar elemen naik dan tombol terlihat jelas */
     .block-container {
-        padding-top: 0.5rem;
-        padding-bottom: 0rem;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
         max-width: 100% !important;
     }
     
     h1 {
         text-align: center;
         font-family: 'Arial', sans-serif;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        font-size: 1.8rem;
+        margin-top: 0px;
+        margin-bottom: 10px;
+        font-size: 2.0rem;
         color: #31333F;
-    }
-    
-    /* Desain tombol kustom agar kokoh dan tidak tergeser */
-    .custom-tab-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #ffffff;
-        color: #31333F;
-        border: 1px solid rgba(49, 51, 63, 0.2);
-        padding: 0.3rem 1rem;
-        border-radius: 0.5rem;
-        font-weight: 500;
-        font-size: 1.1rem;
-        text-decoration: none;
-        cursor: pointer;
-        transition: all 0.16s ease-in-out;
-        width: 100%;
-        height: 38px;
-        box-shadow: 0px 1px 3px rgba(0,0,0,0.05);
-    }
-    
-    .custom-tab-btn:hover {
-        border-color: #ff4b4b;
-        color: #ff4b4b;
-        background-color: rgba(255, 75, 75, 0.05);
     }
     </style>
     """,
@@ -70,18 +45,18 @@ import plotly.express as px
 from PIL import Image
 import time
 
-# Navigation Bar - Menggunakan kolom proporsional agar hemat ruang
-col_nav, _ = st.columns([2.5, 7.5])
-with col_nav:
-    st.markdown(
-        f'<a href="https://forio.com/app/bustamiizhari/inl" target="_blank" class="custom-tab-btn">🏠 Kembali ke Menu Utama</a>', 
-        unsafe_allow_html=True
-    )
+# ==============================================================================
+# 2. NAVIGASI DAN JUDUL (Menggunakan Elemen Asli Streamlit)
+# ==============================================================================
+# Memisahkan baris tombol navigasi dan judul agar tidak saling tumpang tindih
+col_btn, _ = st.columns([2, 8])
+with col_btn:
+    st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
 st.markdown("<h1>Pabrik PKS (Simulasi Aliran)</h1>", unsafe_allow_html=True)
 
 # ==============================================================================
-# 2. MEMUAT BACKGROUND IMAGE PKS
+# 3. MEMUAT BACKGROUND IMAGE PKS
 # ==============================================================================
 try:
     img = Image.open("pks.png")
@@ -91,7 +66,7 @@ except FileNotFoundError:
     st.stop()
 
 # ==============================================================================
-# 3. KOORDINAT BERDASARKAN DIAGRAM ALIR PABRIK PKS (Skala Rasio Gambar)
+# 4. KOORDINAT BERDASARKAN DIAGRAM ALIR PABRIK PKS (Skala Rasio Gambar)
 # ==============================================================================
 flow_path = [
     # --- JALUR A: KEBUN SENDIRI ---
@@ -162,7 +137,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 4. LOOPING ANIMASI DENGAN TINGGI TERKALIBRASI (ANTI-MELUBER)
+# 5. LOOPING ANIMASI RESPONSIVE (DENGAN AUTO-SCALE)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -187,15 +162,14 @@ while True:
         # 2. SEGI TIGA PENANDA GERAKAN KUNING
         fig.add_scatter(
             x=[current['x']], y=[current['y']], mode="markers+text",
-            marker=dict(size=30, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
+            marker=dict(size=28, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
             text=[current['label']], textposition="top center",
-            textfont=dict(size=16, color="darkred", family="Arial Black")
+            textfont=dict(size=14, color="darkred", family="Arial Black")
         )
         
-        # DIKALIBRASI: Mengunci height di angka 540 agar pks.png muat sempurna di sisa vertical space monitor
+        # Mengatur margin 0, melepas batas tinggi statis (biar auto-scale mengikuti jendela browser)
         fig.update_layout(
-            margin=dict(l=0, r=0, t=0, b=0), 
-            height=540,
+            margin=dict(l=0, r=0, t=0, b=0),
             autosize=True
         )
         
