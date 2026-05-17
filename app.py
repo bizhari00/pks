@@ -1,8 +1,7 @@
-
 import streamlit as st
 
 # ==============================================================================
-# 1. ANTARMUKA RESPONSIF & KUNCI VIEWPORT (Wajib Paling Atas)
+# 1. ANTARMUKA RESPONSIF & PENYELARASAN TOMBOL UTAMA (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
     page_title="Pabrik PKS",
@@ -10,35 +9,35 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# CSS Kustom untuk mengunci elemen agar pas di satu layar monitor tanpa scroll vertikal
+# Dioptimalkan: Mengizinkan scrolling halaman dan menambah jarak atas (padding-top) agar tombol terlihat
 st.markdown(
     """
     <style>
     html, body, [data-testid="stAppViewContainer"] {
         zoom: 1.0;
-        overflow: hidden; /* Mencegah halaman meluber ke bawah */
+        overflow-y: auto !important; /* Mengembalikan scroll agar tombol di atas tidak terpotong */
     }
     
     .block-container {
-        padding-top: 0.5rem !important;
-        padding-bottom: 0rem !important;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
+        padding-top: 2rem !important; /* Memberikan ruang vertikal yang cukup untuk tombol navigasi */
+        padding-bottom: 1rem !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
         max-width: 100% !important;
     }
     
     h1 {
         text-align: center;
         font-family: 'Arial', sans-serif;
-        margin-top: 0px;
-        margin-bottom: 5px;
-        font-size: 1.8rem;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        font-size: 2.0rem;
         color: #31333F;
     }
     
-    /* Memaksa elemen chart Plotly agar tingginya maksimal 65% dari tinggi layar browser */
+    /* Memastikan bingkai Chart Plotly tidak memaksa layout meluber ekstrem */
     div[data-testid="stPlotlyChart"] {
-        max-height: 65vh !important;
+        max-height: 70vh !important;
     }
     </style>
     """,
@@ -50,9 +49,9 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. NAVIGASI UTAMA (Menggunakan Native Button Streamlit Agar Stabil)
+# 2. NAVIGASI UTAMA (Native Streamlit Button - Menjamin Posisi Teratas)
 # ==============================================================================
-col_btn, _ = st.columns([2.5, 7.5])
+col_btn, _ = st.columns([3, 7])
 with col_btn:
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
@@ -69,7 +68,7 @@ except FileNotFoundError:
     st.stop()
 
 # ==============================================================================
-# 4. RE-KALIBRASI KOORDINAT PLOTLY (Sesuai Diagram Alir Vensim Anda)
+# 4. KOORDINAT DIAGRAM ALIR PABRIK PKS (Skala Rasio Gambar)
 # ==============================================================================
 flow_path = [
     # --- JALUR A: KEBUN SENDIRI ---
@@ -140,7 +139,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 5. LOOPING SIMULASI (EFEK RESPONSIF OTOMATIS)
+# 5. LOOPING SIMULASI (EFEK RESPONSIF)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -153,7 +152,7 @@ while True:
         fig.update_xaxes(visible=False)
         fig.update_yaxes(visible=False)
         
-        # 1. Gambar Kotak Hijau Transparan Tepat di Atas Komponen Diagram Vensim
+        # 1. Kotak Hijau Transparan di Atas Komponen Diagram
         area = current['tank_area']
         fig.add_shape(
             type="rect", 
@@ -162,7 +161,7 @@ while True:
             line=dict(color="LimeGreen", width=3),
         )
         
-        # 2. Penanda Segitiga Gerak Kuning & Label Teks yang Proporsional
+        # 2. Segitiga Gerak Kuning & Label Teks
         fig.add_scatter(
             x=[current['x']], y=[current['y']], mode="markers+text",
             marker=dict(size=26, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
@@ -170,7 +169,6 @@ while True:
             textfont=dict(size=13, color="darkred", family="Arial Black")
         )
         
-        # Layout dibiarkan responsif mengikuti batas max-height CSS di atas
         fig.update_layout(
             margin=dict(l=0, r=0, t=0, b=0),
             autosize=True
