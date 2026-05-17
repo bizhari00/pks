@@ -65,12 +65,12 @@ process_phases = [
     [
         {
             'label': 'Laju Penerimaan TBS Kebun Sendiri',
-            'x': 250, 'y': 200,
+            'x': 67, 'y': 224,
             'tank_area': [177, 121, 295, 210]
         },
         {
             'label': 'Laju Penerimaan TBS Mitra',
-            'x': 290, 'y': 400,
+            'x': 117, 'y': 449,
             'tank_area': [192, 485, 332, 610]
         }
     ],
