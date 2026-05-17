@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ==============================================================================
-# 1. ANTARMUKA INSTAN & OPTIMALISASI UKURAN MAKSIMAL (Wajib Paling Atas)
+# 1. ANTARMUKA RESPONSIF & DOCKING TOMBOL NAVIGASI (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
     page_title="Pabrik PKS",
@@ -12,27 +12,31 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Mengembalikan zoom ke normal agar gambar tidak menciut menjadi kecil */
+    /* Mengunci halaman agar tidak memiliki scrollbar vertikal ganda */
     html, body, [data-testid="stAppViewContainer"] {
         zoom: 1.0;
+        overflow: hidden;
     }
     
-    /* Memaksa kontainer Streamlit menggunakan 100% lebar layar tanpa margin kosong */
+    /* Memaksimalkan container tanpa margin kosong di sisi kanan-kiri */
     .block-container {
         padding-top: 0.5rem;
         padding-bottom: 0rem;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
         max-width: 100% !important;
     }
     
     h1 {
         text-align: center;
         font-family: 'Arial', sans-serif;
-        margin-bottom: 10px;
-        font-size: 2.2rem;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-size: 1.8rem;
+        color: #31333F;
     }
     
+    /* Desain tombol kustom agar kokoh dan tidak tergeser */
     .custom-tab-btn {
         display: inline-flex;
         align-items: center;
@@ -40,16 +44,16 @@ st.markdown(
         background-color: #ffffff;
         color: #31333F;
         border: 1px solid rgba(49, 51, 63, 0.2);
-        padding: 0.4rem 1rem;
+        padding: 0.3rem 1rem;
         border-radius: 0.5rem;
         font-weight: 500;
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         text-decoration: none;
         cursor: pointer;
-        transition: background-color 0.16s ease-in-out;
+        transition: all 0.16s ease-in-out;
         width: 100%;
-        height: 40px;
-        margin-left: 10px;
+        height: 38px;
+        box-shadow: 0px 1px 3px rgba(0,0,0,0.05);
     }
     
     .custom-tab-btn:hover {
@@ -66,12 +70,11 @@ import plotly.express as px
 from PIL import Image
 import time
 
-# Navigation Bar
-URL_PORTAL_FORIO = "https://forio.com/app/bustamiizhari/inl"
-col_nav, _ = st.columns([2, 5])
+# Navigation Bar - Menggunakan kolom proporsional agar hemat ruang
+col_nav, _ = st.columns([2.5, 7.5])
 with col_nav:
     st.markdown(
-        f'<a href="{URL_PORTAL_FORIO}" target="_blank" class="custom-tab-btn">🏠 Kembali ke Menu Utama</a>', 
+        f'<a href="https://forio.com/app/bustamiizhari/inl" target="_blank" class="custom-tab-btn">🏠 Kembali ke Menu Utama</a>', 
         unsafe_allow_html=True
     )
 
@@ -159,7 +162,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 4. LOOPING ANIMASI BERJALAN RESPONSIVE (UKURAN PENUH)
+# 4. LOOPING ANIMASI DENGAN TINGGI TERKALIBRASI (ANTI-MELUBER)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -184,14 +187,15 @@ while True:
         # 2. SEGI TIGA PENANDA GERAKAN KUNING
         fig.add_scatter(
             x=[current['x']], y=[current['y']], mode="markers+text",
-            marker=dict(size=32, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
+            marker=dict(size=30, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
             text=[current['label']], textposition="top center",
-            textfont=dict(size=18, color="darkred", family="Arial Black")
+            textfont=dict(size=16, color="darkred", family="Arial Black")
         )
         
-        # Mengizinkan autosize tanpa batas height agar mengikuti resolusi asli gambar secara maksimal
+        # DIKALIBRASI: Mengunci height di angka 540 agar pks.png muat sempurna di sisa vertical space monitor
         fig.update_layout(
             margin=dict(l=0, r=0, t=0, b=0), 
+            height=540,
             autosize=True
         )
         
