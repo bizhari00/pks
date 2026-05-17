@@ -65,7 +65,7 @@ process_phases = [
     [
         {
             'label': 'Laju Penerimaan TBS Kebun Sendiri',
-            'x': 120, 'y': 234,
+            'x': 140, 'y': 234,
             'tank_area': [177, 121, 295, 210]
         },
         {
