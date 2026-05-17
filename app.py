@@ -101,11 +101,11 @@ process_phases = [
     [
         {
             'label': 'Stock Palm Kernel Kebun Sendiri',
-            'tank_area': [500, 185, 580, 215]
+            'tank_area': [625, 125, 763, 200]
         },
         {
             'label': 'Stock Palm Kernel Mitra',
-            'tank_area': [500, 385, 580, 415]
+            'tank_area': [615, 495, 755, 490]
         }
     ],
 
