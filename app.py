@@ -66,7 +66,7 @@ process_phases = [
         {
             'x': int(img_width * 0.25), 'y': int(img_height * 0.41),
             'label': 'Laju Penerimaan TBS Kebun Sendiri',
-            'tank_area': [int(img_width * 0.22), int(img_height * 0.38), int(img_width * 0.29), int(img_height * 0.44)]
+            'tank_area': [int(img_width * 0.2), int(img_height * 0.2), int(img_width * 0.3), int(img_height * 0.1)]
         },
         {
             'x': int(img_width * 0.29), 'y': int(img_height * 0.81),
