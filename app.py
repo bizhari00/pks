@@ -15,9 +15,9 @@ st.markdown(
     <style>
     .block-container {
         padding-top: 2.0rem !important; 
-        padding-bottom: 2rem !important;
-        padding-left: 1.5rem !important;
-        padding-right: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+        padding-left: 2.0rem !important;
+        padding-right: 2.0rem !important;
         max-width: 100% !important;
     }
     </style>
@@ -129,7 +129,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 6. LOOPING SIMULASI (DENGAN TATA LETAK LONGGAR DAN PRESISI)
+# 6. LOOPING SIMULASI (EFEK ZOOM 80% VIA DIMENSI PLOTLY)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -159,10 +159,10 @@ while True:
             textfont=dict(size=12, color="darkred", family="Arial Black")
         )
         
-        # Margin atas diatur seimbang (t=20), tinggi wadah dinaikkan ke 600 agar gambar tampil utuh
+        # Mengubah height ke 480 dan memberi margin samping (40) untuk efek zoom-out 80% yang proporsional
         fig.update_layout(
-            margin=dict(l=0, r=0, t=20, b=0),
-            height=600,
+            margin=dict(l=40, r=40, t=15, b=0),
+            height=480,
             autosize=True
         )
         
