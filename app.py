@@ -165,7 +165,8 @@ while True:
             height=500,
             autosize=True
         )
-        
+        showlegend=False # <--- Tambahkan ini untuk menghilangkan trace 1 & trace 2
+        )
         with placeholder.container():
             st.plotly_chart(
                 fig, 
