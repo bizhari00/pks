@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Hanya menggunakan padding standar tanpa memodifikasi overflow atau flexbox kustom
+# Padding standar halaman
 st.markdown(
     """
     <style>
@@ -30,16 +30,14 @@ from PIL import Image
 import time
 
 # ==============================================================================
-# 2. NAVIGASI & JUDUL SEBARIS (Menggunakan Fitur Murni Streamlit)
+# 2. NAVIGASI & JUDUL SEBARIS (Fitur Murni Streamlit - 100% Aman Forio)
 # ==============================================================================
-# Membagi baris dengan proporsi kolom asli Streamlit agar stabil di iFrame Forio
 col_btn, col_title = st.columns([1.2, 2.8])
 
 with col_btn:
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
 with col_title:
-    # Menggunakan komponen judul asli bawaan Streamlit agar rendering diagram di bawahnya aman
     st.subheader("Pabrik PKS (Simulasi Aliran)")
 
 st.divider()
@@ -126,7 +124,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 5. LOOPING SIMULASI (PENGUNCIAN SKALA TINGGI DIAGRAM RESPONSIF)
+# 5. LOOPING SIMULASI (DENGAN PENURUNAN POSISI DIAGRAM VIA MARGIN)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -156,9 +154,9 @@ while True:
             textfont=dict(size=12, color="darkred", family="Arial Black")
         )
         
-        # Ukuran tinggi dikunci ke 520px agar memenuhi layar tanpa merusak iFrame
+        # Mengatur margin tata letak: t=40 memberikan ruang kosong di sisi atas (menurunkan diagram)
         fig.update_layout(
-            margin=dict(l=0, r=0, t=0, b=0),
+            margin=dict(l=0, r=0, t=40, b=0),
             height=520,
             autosize=True
         )
