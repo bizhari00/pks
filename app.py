@@ -89,7 +89,7 @@ process_phases = [
     [
         {
             'label': 'Stock CPO Kebun Sendiri',
-            'tank_area': [620, 40, 750, 108]
+            'tank_area': [625, 111, 749, 36]
         },
         {
             'label': 'Stock CPO Mitra',
