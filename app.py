@@ -4,12 +4,12 @@ import streamlit as st
 # 1. KONFIGURASI HALAMAN UTAMA (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
-    page_title="Pabrik PKS - Grid Kelipatan 50",
+    page_title="Pabrik PKS - Kalibrasi Kotak",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# Pengaturan padding halaman utama (Sudah Teruji Aman di Forio 80%)
+# Pengaturan padding halaman utama agar aman di Forio 80%
 st.markdown(
     """
     <style>
@@ -43,7 +43,7 @@ with col_btn:
     st.link_button("🏠 Kembali ke Menu Utama", "https://forio.com/app/bustamiizhari/inl", use_container_width=True)
 
 with col_title:
-    st.subheader("Mode Kalibrasi (Grid Kerapatan 50 px)")
+    st.subheader("Kalibrasi Posisi: Pengaturan Kotak via Koordinat XY Murni")
 
 st.divider()
 
@@ -52,88 +52,88 @@ st.divider()
 # ==============================================================================
 try:
     img = Image.open("pks.png")
-    img_width, img_height = img.size
 except FileNotFoundError:
     st.error("File 'pks.png' tidak ditemukan. Pastikan file gambar ada di root repository GitHub Anda.")
     st.stop()
 
 # ==============================================================================
-# 5. STRUKTUR FASE PROSES PARALEL
+# 5. INPUT KOORDINAT XY MURNI (Silakan Edit Angka di Sini Sesuai Grid 50 px)
+#    Format tank_area: [X_Mulai, Y_Mulai, X_Akhir, Y_Akhir]
 # ==============================================================================
 process_phases = [
     # --- FASE 1: PENERIMAAN TBS BARENGAN ---
     [
         {
-            'x': int(img_width * 0.25), 'y': int(img_height * 0.41),
-            'label': 'Laju Penerimaan TBS Kebun Sendiri',
-            'tank_area': [int(img_width * 0.2), int(img_height * 0.2), int(img_width * 0.3), int(img_height * 0.1)]
+            'label': 'Laju Penerimaan TBS',
+            'x': 250, 'y': 200,
+            'tank_area': [220, 185, 290, 215]
         },
         {
-            'x': int(img_width * 0.29), 'y': int(img_height * 0.81),
             'label': 'Laju Penerimaan TBS Mitra',
-            'tank_area': [int(img_width * 0.25), int(img_height * 0.78), int(img_width * 0.32), int(img_height * 0.84)]
+            'x': 290, 'y': 400,
+            'tank_area': [250, 385, 320, 415]
         }
     ],
     
     # --- FASE 2: STOCK PKS BARENGAN ---
     [
         {
-            'x': int(img_width * 0.35), 'y': int(img_height * 0.41),
             'label': 'Stock PKS Kebun Sendiri',
-            'tank_area': [int(img_width * 0.31), int(img_height * 0.38), int(img_width * 0.39), int(img_height * 0.44)]
+            'x': 350, 'y': 200,
+            'tank_area': [310, 185, 390, 215]
         },
         {
-            'x': int(img_width * 0.35), 'y': int(img_height * 0.81),
             'label': 'Stock PKS Mitra',
-            'tank_area': [int(img_width * 0.31), int(img_height * 0.78), int(img_width * 0.39), int(img_height * 0.84)]
+            'x': 350, 'y': 400,
+            'tank_area': [310, 385, 390, 415]
         }
     ],
     
     # --- FASE 3: PROSES MASUK KE TANGKI CPO BARENGAN ---
     [
         {
-            'x': int(img_width * 0.54), 'y': int(img_height * 0.31),
             'label': 'Stock CPO Kebun Sendiri',
-            'tank_area': [int(img_width * 0.50), int(img_height * 0.28), int(img_width * 0.58), int(img_height * 0.34)]
+            'x': 540, 'y': 150,
+            'tank_area': [500, 135, 580, 165]
         },
         {
-            'x': int(img_width * 0.54), 'y': int(img_height * 0.71),
             'label': 'Stock CPO Mitra',
-            'tank_area': [int(img_width * 0.50), int(img_height * 0.68), int(img_width * 0.58), int(img_height * 0.74)]
+            'x': 540, 'y': 350,
+            'tank_area': [500, 335, 580, 365]
         }
     ],
     
     # --- FASE 4: PROSES MASUK KE STORAGE KERNEL BARENGAN ---
     [
         {
-            'x': int(img_width * 0.54), 'y': int(img_height * 0.41),
             'label': 'Stock Palm Kernel Kebun Sendiri',
-            'tank_area': [int(img_width * 0.50), int(img_height * 0.38), int(img_width * 0.58), int(img_height * 0.44)]
+            'x': 540, 'y': 200,
+            'tank_area': [500, 185, 580, 215]
         },
         {
-            'x': int(img_width * 0.54), 'y': int(img_height * 0.81),
             'label': 'Stock Palm Kernel Mitra',
-            'tank_area': [int(img_width * 0.50), int(img_height * 0.78), int(img_width * 0.58), int(img_height * 0.84)]
+            'x': 540, 'y': 400,
+            'tank_area': [500, 385, 580, 415]
         }
     ],
 
     # --- FASE 5: OUTPUT TRANSMISI TOTAL BARENGAN ---
     [
         {
-            'x': int(img_width * 0.81), 'y': int(img_height * 0.45),
             'label': 'Total CPO Yang Dihasilkan',
-            'tank_area': [int(img_width * 0.76), int(img_height * 0.38), int(img_width * 0.86), int(img_height * 0.52)]
+            'x': 810, 'y': 225,
+            'tank_area': [760, 185, 860, 255]
         },
         {
-            'x': int(img_width * 0.81), 'y': int(img_height * 0.76),
             'label': 'Total Palm Kernel Yang Dihasilkan',
-            'tank_area': [int(img_width * 0.76), int(img_height * 0.69), int(img_width * 0.86), int(img_height * 0.83)]
+            'x': 810, 'y': 380,
+            'tank_area': [760, 345, 860, 415]
         }
     ]
 ]
 
 # ==============================================================================
-# 6. LOOPING SIMULASI (DENGAN GRID INCREMENT 50)
+# 6. LOOPING RENDERING & GRID SISTEM
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -142,24 +142,24 @@ while True:
     for phase in process_phases:
         fig = px.imshow(img)
         
-        # --- MENGAKTIFKAN GRID KELIPATAN 50 ---
+        # Grid pembantu kelipatan 50 aktif untuk melihat posisi angka kotak
         fig.update_xaxes(
             visible=True, 
             showgrid=True, 
             gridwidth=1, 
-            gridcolor='rgba(255, 0, 0, 0.3)', # Garis merah tipis pembantu
-            dtick=50 # Interval sumbu X per 50 piksel
+            gridcolor='rgba(255, 0, 0, 0.3)', 
+            dtick=50
         )
         fig.update_yaxes(
             visible=True, 
             showgrid=True, 
             gridwidth=1, 
             gridcolor='rgba(255, 0, 0, 0.3)', 
-            dtick=50 # Interval sumbu Y per 50 piksel
+            dtick=50
         )
         
         for component in phase:
-            # 1. Gambar Kotak Hijau Transparan
+            # 1. Menggambar Kotak Berdasarkan Nilai XY Murni
             area = component['tank_area']
             fig.add_shape(
                 type="rect", 
@@ -168,7 +168,7 @@ while True:
                 line=dict(color="LimeGreen", width=3),
             )
             
-            # 2. Gambar Segitiga Indikator Kuning & Label Teks
+            # 2. Menggambar Indikator Segitiga & Teks Label
             fig.add_scatter(
                 x=[component['x']], y=[component['y']], mode="markers+text",
                 marker=dict(size=24, color="yellow", symbol="triangle-right", line=dict(width=2, color="orange")),
@@ -176,7 +176,6 @@ while True:
                 textfont=dict(size=12, color="darkred", family="Arial Black")
             )
         
-        # Penyesuaian ruang agar label sumbu XY terbaca dengan baik
         fig.update_layout(
             margin=dict(l=40, r=40, t=15, b=25),
             height=510,
@@ -191,8 +190,8 @@ while True:
                     'displayModeBar': True,
                     'responsive': True
                 }, 
-                key=f"pks_grid_50_{render_count}"
+                key=f"pks_xy_calibration_{render_count}"
             )
         
         render_count += 1
-        time.sleep(3.0) # Memberi waktu yang cukup untuk membaca nilai koordinat sebelum loop berganti
+        time.sleep(3.0)
