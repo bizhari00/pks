@@ -8,8 +8,8 @@ st.markdown(
     <style>
     /* Mengunci zoom seluruh aplikasi Streamlit di skala 80% secara instan */
     html, body, [data-testid="stAppViewContainer"] {
-        zoom: 1.0;
-        -moz-transform: scale(1); /* Dukungan untuk Firefox */
+        zoom: 0.8;
+        -moz-transform: scale(0.8); /* Dukungan untuk Firefox */
         -moz-transform-origin: top center;
     }
     </style>
