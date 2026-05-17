@@ -1,7 +1,12 @@
+Berikut adalah full script Python (streamlit_app.py) yang sudah disempurnakan.
+
+Pada versi ini, pengaturan layout dioptimalkan secara maksimal dengan membuang padding kosong di sisi kanan-kiri bawaan Streamlit, menambahkan parameter responsive: True pada Plotly, serta mengunci skala zoom kontainer di angka 0.8 (atau 0.85 sesuai kenyamanan mata) agar diagram yang lebar ke kanan otomatis menciut secara proporsional dan tidak terpotong lagi.
+
+Python
 import streamlit as st
 
 # ==============================================================================
-# 1. ANTARMUKA INSTAN & GLOBAL ZOOM 80% (Paling Atas)
+# 1. ANTARMUKA INSTAN & GLOBAL ZOOM PENGUNCI (Wajib Paling Atas)
 # ==============================================================================
 st.set_page_config(
     page_title="Pabrik PKS",
@@ -14,19 +19,26 @@ st.markdown(
     <style>
     /* Mengunci zoom seluruh aplikasi Streamlit di skala 80% secara instan */
     html, body, [data-testid="stAppViewContainer"] {
-        zoom: 0.9;
-        -moz-transform: scale(0.9); /* Dukungan untuk Firefox */
+        zoom: 0.80;
+        -moz-transform: scale(0.80); /* Dukungan untuk Firefox */
         -moz-transform-origin: top center;
     }
+    
+    /* Memaksimalkan lebar layar 100% penuh tanpa menyisakan margin kosong di tepi kanan-kiri */
     .block-container {
         padding-top: 1rem;
         padding-bottom: 0rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        max-width: 100% !important;
     }
+    
     h1 {
         text-align: center;
         font-family: 'Arial', sans-serif;
         margin-bottom: 15px;
     }
+    
     .custom-tab-btn {
         display: inline-flex;
         align-items: center;
@@ -44,6 +56,7 @@ st.markdown(
         width: 100%;
         height: 42px;
     }
+    
     .custom-tab-btn:hover {
         border-color: #ff4b4b;
         color: #ff4b4b;
@@ -67,7 +80,7 @@ with col_nav:
         unsafe_allow_html=True
     )
 
-st.markdown("<h1>Pabrik PKS</h1>", unsafe_allow_html=True)
+st.markdown("<h1>Pabrik PKS (Simulasi Aliran)</h1>", unsafe_allow_html=True)
 
 # ==============================================================================
 # 2. MEMUAT BACKGROUND IMAGE PKS
@@ -80,9 +93,9 @@ except FileNotFoundError:
     st.stop()
 
 # ==============================================================================
-# 3. KOORDINAT BARU BERDASARKAN DIAGRAM ALIR PABRIK PKS (Skala Estimasi Gambar)
+# 3. KOORDINAT BERDASARKAN DIAGRAM ALIR PABRIK PKS (Skala Rasio Gambar)
 # ==============================================================================
-# Format koordinat Plotly imshow: [x0, y0, x1, y1] dari pojok kiri atas
+# Format koordinat Plotly: [x0, y0, x1, y1] dihitung proporsional dari ukuran asli gambar
 flow_path = [
     # --- JALUR A: KEBUN SENDIRI ---
     {
@@ -109,7 +122,7 @@ flow_path = [
         'label': 'Proses Olah & Stock Palm Kernel Sendiri',
         'tank_area': [int(img_width * 0.49), int(img_height * 0.18), int(img_width * 0.58), int(img_height * 0.24)]
     },
-    
+     
     # --- JALUR B: KEBUN MITRA ---
     {
         'step_id': 'tbs_mitra',
@@ -152,7 +165,7 @@ flow_path = [
 ]
 
 # ==============================================================================
-# 4. LOOPING ANIMASI BERJALAN SECARA PARALEL/BERURUTAN
+# 4. LOOPING ANIMASI BERJALAN RESPONSIVE (ANTI-TERPOTONG)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
@@ -182,15 +195,23 @@ while True:
             textfont=dict(size=18, color="darkred", family="Arial Black")
         )
         
-        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=650)
+        # Mengizinkan autosize dinamis dan menurunkan tinggi grafik agar aspek rasio melebar ke kanan
+        fig.update_layout(
+            margin=dict(l=0, r=0, t=0, b=0), 
+            height=600, 
+            autosize=True
+        )
         
         with placeholder.container():
             st.plotly_chart(
                 fig, 
                 use_container_width=True, 
-                config={'displayModeBar': False}, 
+                config={
+                    'displayModeBar': False,
+                    'responsive': True # Memaksa Plotly mereduksi skala gambar mengikuti lebar layar browser
+                }, 
                 key=f"pks_render_{render_count}"
             )
         
         render_count += 1
-        time.sleep(1.5)  # Kecepatan transisi alur per langkah
+        time.sleep(1.5)  # Interval pergerakan animasi
