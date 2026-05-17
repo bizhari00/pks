@@ -64,9 +64,9 @@ process_phases = [
     # --- FASE 1: PENERIMAAN TBS BARENGAN ---
     [
         {
-            'label': 'Laju Penerimaan TBS',
+            'label': 'Laju Penerimaan TBS Kebun Sendiri',
             'x': 250, 'y': 200,
-            'tank_area': [220, 185, 290, 215]
+            'tank_area': [177, 121, 295, 210]
         },
         {
             'label': 'Laju Penerimaan TBS Mitra',
