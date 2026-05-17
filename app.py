@@ -1,16 +1,4 @@
- Tidak Ditemukan
-Conversation with Gemini
-done great tapi masih terlalu lama munculnya
 
-Jika menggunakan metode <iframe> pemuatannya terasa terlalu lama, itu terjadi karena browser harus mengunduh infrastruktur HTML Anda dulu, baru kemudian mulai memproses dan mengunduh seluruh isi aplikasi Streamlit di dalam frame tersebut. Proses ganda ini memakan waktu (ada jeda loading putih).
-
-Agar aplikasi muncul secepat kilat (instan) dan tetap terkunci di zoom 80%, solusi terbaik dan paling bersih adalah menghapus file HTML jembatan ini, lalu memasukkan kode CSS pengatur skala 80% tersebut langsung ke dalam file Python utama aplikasi Streamlit Anda (streamlit_app.py).
-
-Dengan cara ini, begitu pengguna mengakses link, server Streamlit langsung menyajikan halaman dengan skala 80% tanpa perantara.
-
-Silakan buka file streamlit_app.py di GitHub atau komputer Anda, lalu tempelkan kode berikut di bagian paling atas (tepat setelah baris import streamlit as st):
-
-Python
 import streamlit as st
 
 # WAJIB ditaruh di baris paling atas setelah import agar langsung dieksekusi browser
