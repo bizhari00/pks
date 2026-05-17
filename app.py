@@ -113,11 +113,11 @@ process_phases = [
     [
         {
             'label': 'Total CPO Yang Dihasilkan',
-            'tank_area': [760, 185, 860, 255]
+            'tank_area': [1078, 128, 1268, 310]
         },
         {
             'label': 'Total Palm Kernel Yang Dihasilkan',
-            'tank_area': [760, 345, 860, 415]
+            'tank_area': [1092, 448, 1270, 619]
         }
     ]
 ]
