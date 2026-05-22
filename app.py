@@ -64,11 +64,11 @@ process_phases = [
     # --- FASE 1: PENERIMAAN TBS BARENGAN ---
     [
         {
-            'label': 'Laju Penerimaan TBS Kebun Sendiri',
+            'label': '',
             'tank_area': [177, 121, 313, 210]
         },
         {
-            'label': 'Laju Penerimaan TBS Mitra',
+            'label': '',
             'tank_area': [192, 485, 332, 610]
         }
     ],
@@ -76,11 +76,11 @@ process_phases = [
     # --- FASE 2: STOCK PKS BARENGAN ---
     [
         {
-            'label': 'Stock PKS Kebun Sendiri',
+            'label': '',
             'tank_area': [326, 110, 470, 200]
         },
         {
-            'label': 'Stock PKS Mitra',
+            'label': '',
             'tank_area': [338, 483, 451, 584]
         }
     ],
@@ -88,11 +88,11 @@ process_phases = [
     # --- FASE 3: PROSES MASUK KE TANGKI CPO BARENGAN ---
     [
         {
-            'label': 'Stock CPO Kebun Sendiri',
+            'label': '',
             'tank_area': [620, 40, 749, 108]
         },
         {
-            'label': 'Stock CPO Mitra',
+            'label': '',
             'tank_area': [605, 405, 745, 490]
         }
     ],
@@ -100,11 +100,11 @@ process_phases = [
     # --- FASE 4: PROSES MASUK KE STORAGE KERNEL BARENGAN ---
     [
         {
-            'label': 'Stock Palm Kernel Kebun Sendiri',
+            'label': '',
             'tank_area': [625, 125, 763, 200]
         },
         {
-            'label': 'Stock Palm Kernel Mitra',
+            'label': '',
             'tank_area': [615, 495, 755, 583]
         }
     ],
@@ -112,11 +112,11 @@ process_phases = [
     # --- FASE 5: OUTPUT TRANSMISI TOTAL BARENGAN ---
     [
         {
-            'label': 'Total CPO Yang Dihasilkan',
+            'label': '',
             'tank_area': [1078, 128, 1268, 310]
         },
         {
-            'label': 'Total Palm Kernel Yang Dihasilkan',
+            'label': '',
             'tank_area': [1092, 448, 1270, 619]
         }
     ]
