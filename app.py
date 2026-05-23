@@ -1,4 +1,7 @@
 import streamlit as st
+import plotly.express as px
+from PIL import Image
+import time
 
 # ==============================================================================
 # 1. KONFIGURASI HALAMAN UTAMA (Wajib Paling Atas)
@@ -25,25 +28,71 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-import plotly.express as px
-from PIL import Image
-import time
-
 # ==============================================================================
 # 2. STRATEGI TURUNKAN LAYOUT 
 # ==============================================================================
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 # ==============================================================================
-# 3. NAVIGASI & JUDUL SEBARIS
+# 3. NAVIGASI & JUDUL SEBARIS (Balanced Design Button & Title)
 # ==============================================================================
+st.markdown(
+    """
+    <style>
+    /* 1. Mengatur Ukuran & Corak Kotak Tombol Navigasi */
+    .stLinkButton > a {
+        background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%) !important; /* Gradasi biru premium */
+        color: #FFFFFF !important;
+        border: none !important;
+        border-radius: 8px !important; 
+        padding: 8px 20px !important; 
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25) !important;
+        transition: all 0.3s ease-in-out !important;
+        text-decoration: none !important;
+        
+        /* KUNCI KESEIMBANGAN: Lebar otomatis dan tidak melar penuh */
+        display: inline-flex !important;
+        width: auto !important;
+        max-width: 320px !important; 
+    }
+
+    /* 2. Menyesuaikan Ukuran Font di Dalam Tombol */
+    .stLinkButton > a p {
+        font-size: 16px !important; 
+        font-weight: bold !important;
+        color: #FFFFFF !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    /* 3. Efek Hover Interaktif */
+    .stLinkButton > a:hover {
+        background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%) !important;
+        box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    /* 4. Mengatur Teks Judul Diagram Agar Selaras Sebaris */
+    .custom-title {
+        font-size: 20px !important; 
+        font-weight: 500 !important;
+        color: #1E293B;
+        margin-top: 8px; 
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Pembagian kolom rasio agar seimbang dan sejajar lurus secara vertikal
 col_btn, col_title = st.columns([1.2, 2.8])
 
 with col_btn:
-    st.link_button("🏠 ke Menu Simulasi", "https://forio.com/app/bustamiizhari/research-day", use_container_width=True)
+    # use_container_width diubah menjadi False agar lebarnya mengikuti batas max-width CSS di atas
+    st.link_button("🏠 ke Menu Simulasi", "https://forio.com/app/bustamiizhari/research-day", use_container_width=False)
 
 with col_title:
-    st.subheader("Produksi PKS")
+    st.markdown('<p class="custom-title">Produksi PKS</p>', unsafe_allow_html=True)
 
 st.divider()
 
@@ -160,7 +209,6 @@ while True:
                 textfont=dict(size=11, color="darkred", family="Arial Black")
             )
         
-        # Penyesuaian Indentasi Layout Gambar (Sejajar di dalam loop 'for phase')
         fig.update_layout(
             margin=dict(l=0, r=0, t=15, b=0), 
             height=500,
