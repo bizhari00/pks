@@ -88,7 +88,6 @@ st.markdown(
 col_btn, col_title = st.columns([1.2, 2.8])
 
 with col_btn:
-    # use_container_width diubah menjadi False agar lebarnya mengikuti batas max-width CSS di atas
     st.link_button("🏠 ke Menu Simulasi", "https://forio.com/app/bustamiizhari/research-day", use_container_width=False)
 
 with col_title:
@@ -158,15 +157,17 @@ process_phases = [
         }
     ],
 
-    # --- FASE 5: OUTPUT TRANSMISI TOTAL BARENGAN ---
+    # --- FASE 5: OUTPUT TRANSMISI TOTAL BARENGAN (UBAH JADI CIRCLE) ---
     [
         {
             'label': '',
-            'tank_area': [1078, 128, 1268, 310]
+            'shape_type': 'circle',  # Mengubah total CPO menjadi Lingkaran
+            'tank_area': [1106,157,1245,290]
         },
         {
             'label': '',
-            'tank_area': [1092, 448, 1270, 619]
+            'shape_type': 'circle',  # Mengubah total Palm Kernel menjadi Lingkaran
+            'tank_area': [1116,467,1253,598]
         }
     ]
 ]
@@ -187,10 +188,12 @@ while True:
         
         for component in phase:
             area = component['tank_area']
+            # Mengambil nilai shape_type, default-nya ke 'rect' (kotak) jika tidak ditulis
+            shape = component.get('shape_type', 'rect')
             
-            # 1. Menggambar Kotak Berdasarkan Nilai XY Murni
+            # 1. Menggambar Bentuk Berdasarkan Tipe Dinamik (Kotak/Lingkaran)
             fig.add_shape(
-                type="rect", 
+                type=shape, 
                 x0=area[0], y0=area[1], x1=area[2], y1=area[3],
                 fillcolor="rgba(0, 255, 0, 0.4)",
                 line=dict(color="LimeGreen", width=3),
