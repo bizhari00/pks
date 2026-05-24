@@ -162,23 +162,26 @@ process_phases = [
         {
             'label': '',
             'shape_type': 'circle',  # Mengubah total CPO menjadi Lingkaran
-            'tank_area': [1106,157,1245,290]
+            'tank_area': [1106, 157, 1245, 290]
         },
         {
             'label': '',
             'shape_type': 'circle',  # Mengubah total Palm Kernel menjadi Lingkaran
-            'tank_area': [1116,467,1253,598]
+            'tank_area': [1116, 467, 1253, 598]
         }
     ]
 ]
 
 # ==============================================================================
-# 6. LOOPING RENDERING (MODE NORMAL - GRID OFF)
+# 6. LOOPING RENDERING (MODE AKUMULASI - KOTAK FASE SEBELUMNYA TETAP ADA)
 # ==============================================================================
 placeholder = st.empty()
 render_count = 0
 
 while True:
+    # List penampung untuk menyimpan semua komponen yang sudah aktif
+    active_components = []
+    
     for phase in process_phases:
         fig = px.imshow(img)
         
@@ -186,9 +189,13 @@ while True:
         fig.update_xaxes(visible=False, showgrid=False)
         fig.update_yaxes(visible=False, showgrid=False)
         
+        # Tambahkan komponen dari fase saat ini ke dalam list akumulasi
         for component in phase:
+            active_components.append(component)
+        
+        # Gambar seluruh komponen yang telah terkumpul sejauh ini
+        for component in active_components:
             area = component['tank_area']
-            # Mengambil nilai shape_type, default-nya ke 'rect' (kotak) jika tidak ditulis
             shape = component.get('shape_type', 'rect')
             
             # 1. Menggambar Bentuk Berdasarkan Tipe Dinamik (Kotak/Lingkaran)
@@ -232,3 +239,6 @@ while True:
         
         render_count += 1
         time.sleep(3.0)
+        
+    # Jeda 2 detik setelah Fase 5 selesai sebelum animasi di-reset otomatis ke Fase 1
+    time.sleep(2.0)
