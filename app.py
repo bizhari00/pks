@@ -141,7 +141,7 @@ process_phases = [
         },
         {
             'label': '',
-            'tank_area': [605, 405, 745, 490]
+            'tank_area': [605, 405, 741, 490]
         }
     ],
     
@@ -153,7 +153,7 @@ process_phases = [
         },
         {
             'label': '',
-            'tank_area': [603, 495, 745, 583]
+            'tank_area': [603, 505, 745, 583]
         }
     ],
 
