@@ -1,3 +1,8 @@
+Tentu, berikut adalah full script lengkap yang sudah diperbarui dengan mengubah warna bentuk (kotak & lingkaran animasi) menjadi hijau pastel yang lembut (soft green) dan menghilangkan garis pinggirnya (borderless).
+
+Perubahan dilakukan pada parameter fillcolor menjadi warna pastel ber-transparansi (rgba(46, 204, 113, 0.45)) dan menyetel width=0 pada bagian properti line di fungsi fig.add_shape().
+
+Python
 import streamlit as st
 import plotly.express as px
 from PIL import Image
@@ -117,7 +122,7 @@ process_phases = [
         },
         {
             'label': '',
-            'tank_area': [191,497,319,607]
+            'tank_area': [191, 497, 319, 607]
         }
     ],
     
@@ -198,12 +203,12 @@ while True:
             area = component['tank_area']
             shape = component.get('shape_type', 'rect')
             
-            # 1. Menggambar Bentuk Berdasarkan Tipe Dinamik (Kotak/Lingkaran)
+            # 1. Menggambar Bentuk Berdasarkan Tipe Dinamik (Warna Lembut Pastel & Tanpa Border)
             fig.add_shape(
                 type=shape, 
                 x0=area[0], y0=area[1], x1=area[2], y1=area[3],
-                fillcolor="rgba(0, 255, 0, 0.4)",
-                line=dict(color="LimeGreen", width=3),
+                fillcolor="rgba(46, 204, 113, 0.45)",  # Menggunakan Hijau Pastel Lembut Transparan
+                line=dict(width=0),                   # width=0 menghilangkan garis border luar kotak
             )
             
             # 2. Perhitungan Otomatis Koordinat Label di Bawah Kotak
