@@ -198,12 +198,12 @@ while True:
             area = component['tank_area']
             shape = component.get('shape_type', 'rect')
             
-            # 1. Mengganti dengan Warna Sage Green yang Sangat Lembut & Borderless
+            # 1. Mengganti dengan Warna Emas Pastel Lembut & Borderless
             fig.add_shape(
                 type=shape, 
                 x0=area[0], y0=area[1], x1=area[2], y1=area[3],
-                fillcolor="rgba(168, 203, 178, 0.35)",  # Warna Sage Pastel Transparan (Super Soft)
-                line=dict(width=0),                    # Tetap tanpa border
+                fillcolor="rgba(212, 175, 55, 0.35)",  # Warna Emas Matte Pastel Transparan
+                line=dict(width=0),                    # Menghilangkan border pinggir kotak
             )
             
             # 2. Perhitungan Otomatis Koordinat Label di Bawah Kotak
