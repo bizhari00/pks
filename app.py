@@ -1,4 +1,3 @@
-
 import streamlit as st
 import plotly.express as px
 from PIL import Image
@@ -199,12 +198,12 @@ while True:
             area = component['tank_area']
             shape = component.get('shape_type', 'rect')
             
-            # 1. Menggambar Bentuk Berdasarkan Tipe Dinamik (Warna Lembut Pastel & Tanpa Border)
+            # 1. Mengganti dengan Warna Sage Green yang Sangat Lembut & Borderless
             fig.add_shape(
                 type=shape, 
                 x0=area[0], y0=area[1], x1=area[2], y1=area[3],
-                fillcolor="rgba(46, 204, 113, 0.45)",  # Menggunakan Hijau Pastel Lembut Transparan
-                line=dict(width=0),                   # width=0 menghilangkan garis border luar kotak
+                fillcolor="rgba(168, 203, 178, 0.35)",  # Warna Sage Pastel Transparan (Super Soft)
+                line=dict(width=0),                    # Tetap tanpa border
             )
             
             # 2. Perhitungan Otomatis Koordinat Label di Bawah Kotak
