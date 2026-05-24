@@ -1,8 +1,4 @@
-Tentu, berikut adalah full script lengkap yang sudah diperbarui dengan mengubah warna bentuk (kotak & lingkaran animasi) menjadi hijau pastel yang lembut (soft green) dan menghilangkan garis pinggirnya (borderless).
 
-Perubahan dilakukan pada parameter fillcolor menjadi warna pastel ber-transparansi (rgba(46, 204, 113, 0.45)) dan menyetel width=0 pada bagian properti line di fungsi fig.add_shape().
-
-Python
 import streamlit as st
 import plotly.express as px
 from PIL import Image
