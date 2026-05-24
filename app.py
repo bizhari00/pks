@@ -167,7 +167,7 @@ process_phases = [
         {
             'label': '',
             'shape_type': 'circle',  # Mengubah total Palm Kernel menjadi Lingkaran
-            'tank_area': [1116, 467, 1253, 598]
+            'tank_area': [1118, 462, 1253, 598]
         }
     ]
 ]
